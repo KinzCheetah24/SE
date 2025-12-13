@@ -10,6 +10,7 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>../../Functions</sourceRootElem>
+                <sourceRootElem>../../Code</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

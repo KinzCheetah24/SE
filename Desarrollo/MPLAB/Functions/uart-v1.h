@@ -10,6 +10,10 @@
 
 void uart_init(void);
 
-char uart_read(void);
+uint16_t uart_read(void);
+
+void uart_write(uint16_t c);
+
+void send_frame(uint8_t command, uint16_t longitud, uint16_t* datos);
 
 #endif	/* UART_V1_H */

@@ -393,8 +393,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 139 ]
 }
 "43
-[; ;../../Functions/uart-v1.c: 43: char uart_read(void)
-[v _uart_read `(uc ~T0 @X0 1 ef ]
+[; ;../../Functions/uart-v1.c: 43: uint16_t uart_read(void)
+[v _uart_read `(us ~T0 @X0 1 ef ]
 "44
 [; ;../../Functions/uart-v1.c: 44: {
 {
@@ -423,9 +423,77 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 147 ]
 "53
 [; ;../../Functions/uart-v1.c: 53:     return RCREG;
-[e ) -> _RCREG `uc ]
+[e ) -> _RCREG `us ]
 [e $UE 143  ]
 "54
 [; ;../../Functions/uart-v1.c: 54: }
 [e :UE 143 ]
+}
+"56
+[; ;../../Functions/uart-v1.c: 56: void uart_write(uint16_t c) {
+[v _uart_write `(v ~T0 @X0 1 ef1`us ]
+{
+[e :U _uart_write ]
+[v _c `us ~T0 @X0 1 r1 ]
+[f ]
+"57
+[; ;../../Functions/uart-v1.c: 57:     while(!TXIF);
+[e $U 149  ]
+[e :U 150 ]
+[e :U 149 ]
+[e $ ! _TXIF 150  ]
+[e :U 151 ]
+"58
+[; ;../../Functions/uart-v1.c: 58:     TXREG = c;
+[e = _TXREG -> _c `uc ]
+"59
+[; ;../../Functions/uart-v1.c: 59: }
+[e :UE 148 ]
+}
+"61
+[; ;../../Functions/uart-v1.c: 61: void send_frame(uint8_t command, uint16_t longitud, uint16_t* datos) {
+[v _send_frame `(v ~T0 @X0 1 ef3`uc`us`*us ]
+{
+[e :U _send_frame ]
+[v _command `uc ~T0 @X0 1 r1 ]
+[v _longitud `us ~T0 @X0 1 r2 ]
+[v _datos `*us ~T0 @X0 1 r3 ]
+[f ]
+"62
+[; ;../../Functions/uart-v1.c: 62:     uart_write(0xAA);
+[e ( _uart_write (1 -> -> 170 `i `us ]
+"63
+[; ;../../Functions/uart-v1.c: 63:     uart_write(longitud);
+[e ( _uart_write (1 _longitud ]
+"64
+[; ;../../Functions/uart-v1.c: 64:     uart_write(command);
+[e ( _uart_write (1 -> _command `us ]
+"66
+[; ;../../Functions/uart-v1.c: 66:     for (int i = 0 ; i < longitud ; i++) {
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $U 156  ]
+[e :U 153 ]
+{
+"67
+[; ;../../Functions/uart-v1.c: 67:         uart_write(datos[i]);
+[e ( _uart_write (1 *U + _datos * -> _i `x -> -> # *U _datos `i `x ]
+"68
+[; ;../../Functions/uart-v1.c: 68:     }
+}
+[e ++ _i -> 1 `i ]
+[e :U 156 ]
+[e $ < -> _i `ui -> _longitud `ui 153  ]
+[e :U 154 ]
+}
+"70
+[; ;../../Functions/uart-v1.c: 70:     uart_write(0x00);
+[e ( _uart_write (1 -> -> 0 `i `us ]
+"71
+[; ;../../Functions/uart-v1.c: 71:     uart_write(0x00);
+[e ( _uart_write (1 -> -> 0 `i `us ]
+"72
+[; ;../../Functions/uart-v1.c: 72: }
+[e :UE 152 ]
 }

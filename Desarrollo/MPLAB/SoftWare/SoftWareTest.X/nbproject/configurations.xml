@@ -27,11 +27,12 @@
       <itemPath>../../Functions/i2c-v2.h</itemPath>
       <itemPath>../../Functions/spi-master-v1.c</itemPath>
       <itemPath>../../Functions/spi-master-v1.h</itemPath>
-      <itemPath>i2c_communication.c</itemPath>
+      <itemPath>../../Code/main.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
     <Elem>../../Functions</Elem>
+    <Elem>../../Code</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

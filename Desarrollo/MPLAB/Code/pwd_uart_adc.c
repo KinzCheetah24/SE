@@ -95,6 +95,7 @@ void main(void) {
 
     while (1) {
         printf("Valores: %d %d %d\n", lecturas[0], lecturas[1], lecturas[2]);
+        send_frame(4, 16);
     }
 }
 

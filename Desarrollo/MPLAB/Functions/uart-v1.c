@@ -38,9 +38,9 @@ void putch(char c)
 }
 
 /* ------------------------------
-   FunciÛn de recepciÛn bloqueante
+   Funci√≥n de recepci√≥n bloqueante
    ------------------------------ */
-char uart_read(void)
+uint16_t uart_read(void)
 {
     while(!PIR1bits.RCIF);   // Espera a que llegue un byte
 
@@ -51,4 +51,22 @@ char uart_read(void)
     }
 
     return RCREG;            // Devuelve el byte recibido
+}
+
+void uart_write(uint16_t c) {
+    while(!TXIF); // Esperar a que el buffer est√© libre
+    TXREG = c;
+}
+
+void send_frame(uint8_t command, uint16_t longitud, uint16_t* datos) {
+    uart_write(0xAA);           // Header
+    uart_write(longitud);           // Length (1 byte comando + 2 bytes payload)
+    uart_write(command);        // Command
+    
+    for (int i = 0 ; i < longitud ; i++) {
+        uart_write(datos[i]);
+    }
+    
+    uart_write(0x00);           // CRC 1 (Dummy)
+    uart_write(0x00);           // CRC 2 (Dummy)
 }

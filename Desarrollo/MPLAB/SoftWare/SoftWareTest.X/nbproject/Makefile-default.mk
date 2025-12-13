@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../../Functions/pwm-v1.c ../../Functions/uart-v1.c ../../Functions/adc-v1.c ../../Functions/i2c-v2.c ../../Functions/spi-master-v1.c i2c_communication.c
+SOURCEFILES_QUOTED_IF_SPACED=../../Functions/pwm-v1.c ../../Functions/uart-v1.c ../../Functions/adc-v1.c ../../Functions/i2c-v2.c ../../Functions/spi-master-v1.c ../../Code/main.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/253344293/pwm-v1.p1 ${OBJECTDIR}/_ext/253344293/uart-v1.p1 ${OBJECTDIR}/_ext/253344293/adc-v1.p1 ${OBJECTDIR}/_ext/253344293/i2c-v2.p1 ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1 ${OBJECTDIR}/i2c_communication.p1
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/253344293/pwm-v1.p1.d ${OBJECTDIR}/_ext/253344293/uart-v1.p1.d ${OBJECTDIR}/_ext/253344293/adc-v1.p1.d ${OBJECTDIR}/_ext/253344293/i2c-v2.p1.d ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1.d ${OBJECTDIR}/i2c_communication.p1.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/253344293/pwm-v1.p1 ${OBJECTDIR}/_ext/253344293/uart-v1.p1 ${OBJECTDIR}/_ext/253344293/adc-v1.p1 ${OBJECTDIR}/_ext/253344293/i2c-v2.p1 ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1 ${OBJECTDIR}/_ext/1852409773/main.p1
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/253344293/pwm-v1.p1.d ${OBJECTDIR}/_ext/253344293/uart-v1.p1.d ${OBJECTDIR}/_ext/253344293/adc-v1.p1.d ${OBJECTDIR}/_ext/253344293/i2c-v2.p1.d ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1.d ${OBJECTDIR}/_ext/1852409773/main.p1.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/253344293/pwm-v1.p1 ${OBJECTDIR}/_ext/253344293/uart-v1.p1 ${OBJECTDIR}/_ext/253344293/adc-v1.p1 ${OBJECTDIR}/_ext/253344293/i2c-v2.p1 ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1 ${OBJECTDIR}/i2c_communication.p1
+OBJECTFILES=${OBJECTDIR}/_ext/253344293/pwm-v1.p1 ${OBJECTDIR}/_ext/253344293/uart-v1.p1 ${OBJECTDIR}/_ext/253344293/adc-v1.p1 ${OBJECTDIR}/_ext/253344293/i2c-v2.p1 ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1 ${OBJECTDIR}/_ext/1852409773/main.p1
 
 # Source Files
-SOURCEFILES=../../Functions/pwm-v1.c ../../Functions/uart-v1.c ../../Functions/adc-v1.c ../../Functions/i2c-v2.c ../../Functions/spi-master-v1.c i2c_communication.c
+SOURCEFILES=../../Functions/pwm-v1.c ../../Functions/uart-v1.c ../../Functions/adc-v1.c ../../Functions/i2c-v2.c ../../Functions/spi-master-v1.c ../../Code/main.c
 
 
 
@@ -128,13 +128,13 @@ ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1: ../../Functions/spi-master-v1.c  n
 	@-${MV} ${OBJECTDIR}/_ext/253344293/spi-master-v1.d ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
-${OBJECTDIR}/i2c_communication.p1: i2c_communication.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/i2c_communication.p1.d 
-	@${RM} ${OBJECTDIR}/i2c_communication.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=none   -mdfp="${DFP_DIR}/xc8"  -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/i2c_communication.p1 i2c_communication.c 
-	@-${MV} ${OBJECTDIR}/i2c_communication.d ${OBJECTDIR}/i2c_communication.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/i2c_communication.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+${OBJECTDIR}/_ext/1852409773/main.p1: ../../Code/main.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/_ext/1852409773" 
+	@${RM} ${OBJECTDIR}/_ext/1852409773/main.p1.d 
+	@${RM} ${OBJECTDIR}/_ext/1852409773/main.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=none   -mdfp="${DFP_DIR}/xc8"  -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/_ext/1852409773/main.p1 ../../Code/main.c 
+	@-${MV} ${OBJECTDIR}/_ext/1852409773/main.d ${OBJECTDIR}/_ext/1852409773/main.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/_ext/1852409773/main.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 else
 ${OBJECTDIR}/_ext/253344293/pwm-v1.p1: ../../Functions/pwm-v1.c  nbproject/Makefile-${CND_CONF}.mk 
@@ -177,13 +177,13 @@ ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1: ../../Functions/spi-master-v1.c  n
 	@-${MV} ${OBJECTDIR}/_ext/253344293/spi-master-v1.d ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/253344293/spi-master-v1.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
-${OBJECTDIR}/i2c_communication.p1: i2c_communication.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/i2c_communication.p1.d 
-	@${RM} ${OBJECTDIR}/i2c_communication.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/i2c_communication.p1 i2c_communication.c 
-	@-${MV} ${OBJECTDIR}/i2c_communication.d ${OBJECTDIR}/i2c_communication.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/i2c_communication.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+${OBJECTDIR}/_ext/1852409773/main.p1: ../../Code/main.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/_ext/1852409773" 
+	@${RM} ${OBJECTDIR}/_ext/1852409773/main.p1.d 
+	@${RM} ${OBJECTDIR}/_ext/1852409773/main.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/_ext/1852409773/main.p1 ../../Code/main.c 
+	@-${MV} ${OBJECTDIR}/_ext/1852409773/main.d ${OBJECTDIR}/_ext/1852409773/main.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/_ext/1852409773/main.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 endif
 

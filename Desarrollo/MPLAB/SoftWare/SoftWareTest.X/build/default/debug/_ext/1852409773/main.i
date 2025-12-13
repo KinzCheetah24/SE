@@ -1,4 +1,4 @@
-# 1 "../../Functions/uart-v1.c"
+# 1 "../../Code/main.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 295 "<built-in>" 3
@@ -6,12 +6,31 @@
 # 1 "<built-in>" 2
 # 1 "/opt/microchip/xc8/v3.10/pic/include/language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "../../Functions/uart-v1.c" 2
+# 1 "../../Code/main.c" 2
 
 
 
 
 
+#pragma config FOSC = HS
+#pragma config WDTE = OFF
+#pragma config PWRTE = ON
+#pragma config MCLRE = ON
+#pragma config CP = OFF
+#pragma config CPD = OFF
+#pragma config BOREN = OFF
+#pragma config IESO = OFF
+#pragma config FCMEN = OFF
+#pragma config LVP = OFF
+
+
+#pragma config BOR4V = BOR21V
+#pragma config WRT = OFF
+
+
+
+
+#pragma intrinsic(_delay)
 
 
 # 1 "/opt/microchip/xc8/v3.10/pic/include/xc.h" 1 3
@@ -2553,68 +2572,431 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "/opt/microchip/xc8/v3.10/pic/include/xc.h" 2 3
-# 9 "../../Functions/uart-v1.c" 2
+# 28 "../../Code/main.c" 2
 
-void uart_init(void)
-{
-    TXSTAbits.BRGH = 0;
-    BAUDCTLbits.BRG16 = 0;
+# 1 "/opt/microchip/xc8/v3.10/pic/include/c99/stdio.h" 1 3
+# 24 "/opt/microchip/xc8/v3.10/pic/include/c99/stdio.h" 3
+# 1 "/opt/microchip/xc8/v3.10/pic/include/c99/bits/alltypes.h" 1 3
+# 12 "/opt/microchip/xc8/v3.10/pic/include/c99/bits/alltypes.h" 3
+typedef void * va_list[1];
 
 
-    SPBRGH = 0;
-    SPBRG = 32;
 
-    TXSTAbits.SYNC = 0;
-    TXSTAbits.TX9 = 0;
-    RCSTAbits.RX9 = 0;
 
-    PIE1bits.TXIE = 0;
-    PIE1bits.RCIE = 0;
+typedef void * __isoc_va_list[1];
+# 143 "/opt/microchip/xc8/v3.10/pic/include/c99/bits/alltypes.h" 3
+typedef short ssize_t;
+# 253 "/opt/microchip/xc8/v3.10/pic/include/c99/bits/alltypes.h" 3
+typedef long off_t;
+# 409 "/opt/microchip/xc8/v3.10/pic/include/c99/bits/alltypes.h" 3
+typedef struct _IO_FILE FILE;
+# 25 "/opt/microchip/xc8/v3.10/pic/include/c99/stdio.h" 2 3
+# 52 "/opt/microchip/xc8/v3.10/pic/include/c99/stdio.h" 3
+typedef union _G_fpos64_t {
+ char __opaque[16];
+ double __align;
+} fpos_t;
 
-    RCSTAbits.SPEN = 1;
+extern FILE *const stdin;
+extern FILE *const stdout;
+extern FILE *const stderr;
 
-    TXSTAbits.TXEN = 1;
-    RCSTAbits.CREN = 1;
 
+
+
+
+FILE *fopen(const char *restrict, const char *restrict);
+FILE *freopen(const char *restrict, const char *restrict, FILE *restrict);
+int fclose(FILE *);
+
+int remove(const char *);
+int rename(const char *, const char *);
+
+int feof(FILE *);
+int ferror(FILE *);
+int fflush(FILE *);
+void clearerr(FILE *);
+
+int fseek(FILE *, long, int);
+long ftell(FILE *);
+void rewind(FILE *);
+
+int fgetpos(FILE *restrict, fpos_t *restrict);
+int fsetpos(FILE *, const fpos_t *);
+
+size_t fread(void *restrict, size_t, size_t, FILE *restrict);
+size_t fwrite(const void *restrict, size_t, size_t, FILE *restrict);
+
+int fgetc(FILE *);
+int getc(FILE *);
+int getchar(void);
+
+
+
+
+
+int ungetc(int, FILE *);
+int getch(void);
+
+int fputc(int, FILE *);
+int putc(int, FILE *);
+int putchar(int);
+
+
+
+
+
+void putch(char);
+
+char *fgets(char *restrict, int, FILE *restrict);
+
+char *gets(char *);
+
+
+int fputs(const char *restrict, FILE *restrict);
+int puts(const char *);
+
+__attribute__((__format__(__printf__, 1, 2)))
+int printf(const char *restrict, ...);
+__attribute__((__format__(__printf__, 2, 3)))
+int fprintf(FILE *restrict, const char *restrict, ...);
+__attribute__((__format__(__printf__, 2, 3)))
+int sprintf(char *restrict, const char *restrict, ...);
+__attribute__((__format__(__printf__, 3, 4)))
+int snprintf(char *restrict, size_t, const char *restrict, ...);
+
+__attribute__((__format__(__printf__, 1, 0)))
+int vprintf(const char *restrict, __isoc_va_list);
+int vfprintf(FILE *restrict, const char *restrict, __isoc_va_list);
+__attribute__((__format__(__printf__, 2, 0)))
+int vsprintf(char *restrict, const char *restrict, __isoc_va_list);
+__attribute__((__format__(__printf__, 3, 0)))
+int vsnprintf(char *restrict, size_t, const char *restrict, __isoc_va_list);
+
+__attribute__((__format__(__scanf__, 1, 2)))
+int scanf(const char *restrict, ...);
+__attribute__((__format__(__scanf__, 2, 3)))
+int fscanf(FILE *restrict, const char *restrict, ...);
+__attribute__((__format__(__scanf__, 2, 3)))
+int sscanf(const char *restrict, const char *restrict, ...);
+
+__attribute__((__format__(__scanf__, 1, 0)))
+int vscanf(const char *restrict, __isoc_va_list);
+int vfscanf(FILE *restrict, const char *restrict, __isoc_va_list);
+__attribute__((__format__(__scanf__, 2, 0)))
+int vsscanf(const char *restrict, const char *restrict, __isoc_va_list);
+
+void perror(const char *);
+
+int setvbuf(FILE *restrict, char *restrict, int, size_t);
+void setbuf(FILE *restrict, char *restrict);
+
+char *tmpnam(char *);
+FILE *tmpfile(void);
+
+
+
+
+FILE *fmemopen(void *restrict, size_t, const char *restrict);
+FILE *open_memstream(char **, size_t *);
+FILE *fdopen(int, const char *);
+FILE *popen(const char *, const char *);
+int pclose(FILE *);
+int fileno(FILE *);
+int fseeko(FILE *, off_t, int);
+off_t ftello(FILE *);
+int dprintf(int, const char *restrict, ...);
+int vdprintf(int, const char *restrict, __isoc_va_list);
+void flockfile(FILE *);
+int ftrylockfile(FILE *);
+void funlockfile(FILE *);
+int getc_unlocked(FILE *);
+int getchar_unlocked(void);
+int putc_unlocked(int, FILE *);
+int putchar_unlocked(int);
+ssize_t getdelim(char **restrict, size_t *restrict, int, FILE *restrict);
+ssize_t getline(char **restrict, size_t *restrict, FILE *restrict);
+int renameat(int, const char *, int, const char *);
+char *ctermid(char *);
+
+
+
+
+
+
+
+char *tempnam(const char *, const char *);
+# 30 "../../Code/main.c" 2
+
+
+# 1 "../../Code/../Functions/pwm-v1.h" 1
+# 11 "../../Code/../Functions/pwm-v1.h"
+void init_PWM(int freq, float porcetaje);
+# 33 "../../Code/main.c" 2
+# 1 "../../Code/../Functions/uart-v1.h" 1
+# 11 "../../Code/../Functions/uart-v1.h"
+void uart_init(void);
+
+uint16_t uart_read(void);
+
+void uart_write(uint16_t c);
+
+void send_frame(uint8_t command, uint16_t longitud, uint16_t* datos);
+# 34 "../../Code/main.c" 2
+# 1 "../../Code/../Functions/adc-v1.h" 1
+# 11 "../../Code/../Functions/adc-v1.h"
+void init_ADC(void);
+# 35 "../../Code/main.c" 2
+# 1 "../../Code/../Functions/spi-master-v1.h" 1
+# 16 "../../Code/../Functions/spi-master-v1.h"
+char spi_write_read(char one_byte);
+# 36 "../../Code/main.c" 2
+# 1 "../../Code/../Functions/i2c-v2.h" 1
+# 11 "../../Code/../Functions/i2c-v2.h"
+void i2c_start(void);
+
+void i2c_stop(void);
+
+void i2c_rstart(void);
+
+unsigned char i2c_write(unsigned char I2C_data);
+
+
+
+
+unsigned char i2c_read(char master_ack);
+# 37 "../../Code/main.c" 2
+# 50 "../../Code/main.c"
+int dato, canal_actual = 0, conversion_lista = 0;
+int lecturas[3];
+
+
+unsigned int co2_prediction = 0;
+unsigned int tvoc_prediction = 0;
+unsigned char status = 0;
+unsigned long resistance = 0;
+
+void IAQ_read(unsigned char* buffer) {
+    i2c_start();
+
+
+
+        if (i2c_write((0x5A << 1) | 1)) {
+
+
+            for (int i = 0; i < 8; i++) {
+                buffer[i] = i2c_read(1);
+            }
+
+
+
+            buffer[8] = i2c_read(0);
+
+            i2c_stop();
+
+
+
+
+
+            co2_prediction = ((unsigned int)buffer[0] << 8) | buffer[1];
+
+
+
+            status = buffer[2];
+
+
+            resistance = ((unsigned long)buffer[4] << 16) |
+                         ((unsigned long)buffer[5] << 8) |
+                         buffer[6];
+
+
+            tvoc_prediction = ((unsigned int)buffer[7] << 8) | buffer[8];
+
+        } else {
+
+            i2c_stop();
+        }
+}
+
+void i2c_init_setup(void) {
+
+    TRISCbits.TRISC3 = 1;
+    TRISCbits.TRISC4 = 1;
+    SSPCON = 0b00101000;
+    SSPADD = 49;
+    SSPSTAT = 0;
+
+
+    SSPSTAT = 0x00;
+    PIR1bits.SSPIF = 0;
 }
 
 
-void putch(char c)
-{
-    while(!TXIF);
-    TXREG = c;
+void VEML_Write(unsigned char command, unsigned int data) {
+    i2c_start();
+    i2c_write((0x10 << 1) | 0);
+    i2c_write(command);
+
+
+    i2c_write(data & 0xFF);
+    i2c_write((data >> 8) & 0xFF);
+
+    i2c_stop();
 }
 
 
+unsigned int VEML_Read(unsigned char command) {
+    unsigned char lsb, msb;
+    unsigned int resultado;
 
 
-uint16_t uart_read(void)
+    i2c_start();
+    i2c_write((0x10 << 1) | 0);
+    i2c_write(command);
+
+
+    i2c_rstart();
+    i2c_write((0x10 << 1) | 1);
+
+
+    lsb = i2c_read(1);
+    msb = i2c_read(0);
+
+    i2c_stop();
+
+
+    resultado = ((unsigned int)msb << 8) | lsb;
+    return resultado;
+}
+
+
+void VEML_Setup() {
+
+
+
+
+
+
+
+    VEML_Write(0x00, 0x0800);
+
+
+
+    _delay((unsigned long)((600)*(20000000/4000.0)));
+}
+
+void init_TMR0(void)
 {
-    while(!PIR1bits.RCIF);
+    OPTION_REGbits.T0CS = 0;
+    OPTION_REGbits.PSA = 0;
+    OPTION_REGbits.PS = 0b110;
+    INTCONbits.T0IF = 0;
+    INTCONbits.T0IE = 1;
+    TMR0 = 236;
+}
 
+void __attribute__((picinterrupt(("")))) interrupt_manager(void)
+{
+    if(INTCONbits.T0IF) {
+        TMR0 = 236;
 
-    if(RCSTAbits.OERR){
-        RCSTAbits.CREN = 0;
-        RCSTAbits.CREN = 1;
+        ADCON0bits.GO_DONE = 1;
+
+        INTCONbits.T0IF = 0;
     }
 
-    return RCREG;
+    if(PIR1bits.ADIF) {
+        int valor = (ADRESH << 8) | ADRESL;
+
+        lecturas[canal_actual] = valor;
+
+        canal_actual++;
+
+        if (canal_actual > 2) {
+            canal_actual = 0;
+            conversion_lista = 1;
+        }
+
+        ADCON0bits.CHS = canal_actual;
+
+        PIR1bits.ADIF = 0;
+    }
 }
 
-void uart_write(uint16_t c) {
-    while(!TXIF);
-    TXREG = c;
-}
+void set_leds(int red, int green, int blue, int intensity) {
 
-void send_frame(uint8_t command, uint16_t longitud, uint16_t* datos) {
-    uart_write(0xAA);
-    uart_write(longitud);
-    uart_write(command);
+    spi_write_read(0x00);
+    spi_write_read(0x00);
+    spi_write_read(0x00);
+    spi_write_read(0x00);
 
-    for (int i = 0 ; i < longitud ; i++) {
-        uart_write(datos[i]);
+    for (int i = 0 ; i < 8 ; i++) {
+
+        spi_write_read(0b11100000 | intensity);
+        spi_write_read(0x00 | blue);
+        spi_write_read(0x00 | green);
+        spi_write_read(0x00 | red);
     }
 
-    uart_write(0x00);
-    uart_write(0x00);
+
+    spi_write_read(0xFF);
+    spi_write_read(0xFF);
+    spi_write_read(0xFF);
+    spi_write_read(0xFF);
+}
+
+void main(void) {
+    unsigned char buffer[9];
+    unsigned int luz_raw;
+    float lux_value, velocidad_pwm = 0.3;
+    int count = 0, rojo = 0, verde = 0, azul = 0, intensity = 0;
+
+    OSCCONbits.OSTS = 1;
+
+    init_TMR0();
+
+    INTCONbits.GIE = 1;
+    INTCONbits.PEIE = 1;
+
+    init_PWM(20000, velocidad_pwm);
+
+    uart_init();
+    init_ADC();
+
+
+
+
+    while (1) {
+        if (count == 4) {
+
+
+
+
+
+            printf("Luminosidad: %f - CO2: %d - Humedad Relativa: %d - Velocidad Ventilador: %f - Leds: R%d G%d B%d I%d - Temperatura: %d\n", lux_value, co2_prediction, lecturas[1], velocidad_pwm, rojo, verde, azul, intensity, lecturas[2]);
+            send_frame(1, uint16_t (lux_value >> 8));
+            send_frame(1, uint16_t (lux_value));
+            send_frame(2, uint16_t (co2_prediction >> 8));
+            send_frame(2, uint16_t (co2_prediction));
+            send_frame(3, uint16_t (lecturas[1]));
+            send_frame(4, uint16_t (velocidad_pwm));
+            send_frame(5, uint16_t (rojo));
+            send_frame(5, uint16_t (verde));
+            send_frame(5, uint16_t (azul));
+            send_frame(5, uint16_t (intensity));
+            send_frame(6, uint16_t (lecturas[2]));
+
+            count = 0;
+        }
+
+        if (count == 1) {
+            printf("Ruido: %d\n", lecturas[0]);
+            send_frame(0, uint16_t (lecturas[0]));
+        }
+
+        set_leds(rojo, verde, azul, intensity);
+
+        count++;
+        _delay((unsigned long)((1000)*(20000000/4000.0)));
+    }
 }
