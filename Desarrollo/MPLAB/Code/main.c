@@ -229,7 +229,9 @@ void main(void) {
     unsigned char buffer[9]; // Buffer para los 9 bytes del sensor 
     unsigned int luz_raw;
     float lux_value, velocidad_pwm = 0.3;
-    int count = 0, rojo = 0, verde = 0, azul = 0, intensity = 0;
+    int count = 0, rojo = 0, verde = 0, azul = 0, intensity = 32;
+    
+    uint8_t payload[4];
     
     OSCCONbits.OSTS = 1; // External cristal
 
@@ -254,26 +256,68 @@ void main(void) {
             //lux_value =  (float)luz_raw * 0.042;
             
             printf("Luminosidad: %f - CO2: %d - Humedad Relativa: %d - Velocidad Ventilador: %f - Leds: R%d G%d B%d I%d - Temperatura: %d\n", lux_value, co2_prediction, lecturas[1], velocidad_pwm, rojo, verde, azul, intensity, lecturas[2]);
-            send_frame(1, uint16_t (lux_value >> 8));
-            send_frame(1, uint16_t (lux_value));
-            send_frame(2, uint16_t (co2_prediction >> 8));
-            send_frame(2, uint16_t (co2_prediction));
-            send_frame(3, uint16_t (lecturas[1]));
-            send_frame(4, uint16_t (velocidad_pwm));
-            send_frame(5, uint16_t (rojo));
-            send_frame(5, uint16_t (verde));
-            send_frame(5, uint16_t (azul));
-            send_frame(5, uint16_t (intensity));
-            send_frame(6, uint16_t (lecturas[2]));
+            
+            // --- 1. LUMINOSIDAD (Comando 0x01, 2 bytes) [cite: 109] ---
+            // Convertir float a entero para poder dividir en bytes
+            unsigned int lux_int = (unsigned int)lux_value; 
+            payload[0] = (lux_int >> 8) & 0xFF; // MSB
+            payload[1] = (lux_int) & 0xFF;      // LSB
+            send_frame(0x01, 2, payload);
+
+            // --- 2. CO2 (Comando 0x02, 2 bytes) [cite: 109] ---
+            payload[0] = (co2_prediction >> 8) & 0xFF;
+            payload[1] = (co2_prediction) & 0xFF;
+            send_frame(0x02, 2, payload);
+
+            // --- 3. HUMEDAD (Comando 0x03, 2 bytes) [cite: 109] ---
+            // Asumiendo que lecturas[1] es un entero 0-100
+            unsigned int hum_int = (unsigned int)lecturas[1];
+            payload[0] = (hum_int >> 8) & 0xFF;
+            payload[1] = (hum_int) & 0xFF;
+            send_frame(0x03, 2, payload);
+
+            // --- 4. VENTILADOR (Comando 0x04, 1 byte) [cite: 109] ---
+            // Requisito: Porcentaje 0-100% 
+            // Tienes 0.3 -> Convertir a 30
+            uint8_t fan_percent = (uint8_t)(velocidad_pwm * 100); 
+            payload[0] = fan_percent;
+            send_frame(0x04, 1, payload);
+
+            // --- 5. LEDS (Comando 0x05, 4 bytes) [cite: 109] ---
+            // Orden: Rojo, Verde, Azul, Brillo [cite: 115]
+            payload[0] = (uint8_t)rojo;
+            payload[1] = (uint8_t)verde;
+            payload[2] = (uint8_t)azul;
+            payload[3] = (uint8_t)intensity;
+            send_frame(0x05, 4, payload);
+
+            // --- 6. TEMPERATURA (Comando 0x06, 1 byte) [cite: 109] ---
+            // Requisito: Sin decimales [cite: 116]
+            payload[0] = (uint8_t)lecturas[2];
+            send_frame(0x06, 1, payload);
             
             count = 0;
         }
         
         if (count == 1) {
-            printf("Ruido: %d\n", lecturas[0]);
-            send_frame(0, uint16_t (lecturas[0]));
+            uint8_t noise_category = 0;
+            int adc_noise = lecturas[0];
+            
+            if (adc_noise <= 400) {
+                noise_category = 0; // Bajo
+            } else if (adc_noise <= 900) {
+                noise_category = 1; // Intermedio
+            } else {
+                noise_category = 2; // Alto
+            }
+            
+            printf("Ruido: %d\n", noise_category);
+            
+            payload[0] = noise_category;
+            send_frame(0x00, 1, payload);
         }
         
+        set_PWM(20000, velocidad_pwm);
         set_leds(rojo, verde, azul, intensity);
         
         count++;

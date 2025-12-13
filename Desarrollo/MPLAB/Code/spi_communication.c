@@ -55,7 +55,7 @@ void set_leds(int red, int green, int blue, int intensity) {
 
 void main(void) {
     while(1){
-        set_leds(0, 0, 0);
+        set_leds(0, 0, 0, 32);
     }
 }
 

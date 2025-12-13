@@ -21,7 +21,7 @@ void uart_init(void)
     RCSTAbits.RX9 = 0; /* RX 8 data bit */
 
     PIE1bits.TXIE = 0; /* Disable TX interrupt */
-    PIE1bits.RCIE = 0; /* Disable RX interrupt */
+    PIE1bits.RCIE = 1; /* Enable RX interrupt */
 
     RCSTAbits.SPEN = 1; /* Serial port enable */
 
@@ -58,13 +58,13 @@ void uart_write(uint16_t c) {
     TXREG = c;
 }
 
-void send_frame(uint8_t command, uint16_t longitud, uint16_t* datos) {
+void send_frame(uint8_t command, uint8_t length, uint8_t *data) {
     uart_write(0xAA);           // Header
-    uart_write(longitud);           // Length (1 byte comando + 2 bytes payload)
+    uart_write(length);           // Length (1 byte comando + 2 bytes payload)
     uart_write(command);        // Command
     
-    for (int i = 0 ; i < longitud ; i++) {
-        uart_write(datos[i]);
+    for (int i = 0 ; i < length ; i++) {
+        uart_write(data[i]);
     }
     
     uart_write(0x00);           // CRC 1 (Dummy)

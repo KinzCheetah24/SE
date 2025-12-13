@@ -2732,6 +2732,8 @@ char *tempnam(const char *, const char *);
 # 1 "../../Code/../Functions/pwm-v1.h" 1
 # 11 "../../Code/../Functions/pwm-v1.h"
 void init_PWM(int freq, float porcetaje);
+
+void set_PWM(int freq, float porcentaje);
 # 33 "../../Code/main.c" 2
 # 1 "../../Code/../Functions/uart-v1.h" 1
 # 11 "../../Code/../Functions/uart-v1.h"
@@ -2741,7 +2743,7 @@ uint16_t uart_read(void);
 
 void uart_write(uint16_t c);
 
-void send_frame(uint8_t command, uint16_t longitud, uint16_t* datos);
+void send_frame(uint8_t command, uint8_t length, uint8_t *data);
 # 34 "../../Code/main.c" 2
 # 1 "../../Code/../Functions/adc-v1.h" 1
 # 11 "../../Code/../Functions/adc-v1.h"
@@ -2949,7 +2951,9 @@ void main(void) {
     unsigned char buffer[9];
     unsigned int luz_raw;
     float lux_value, velocidad_pwm = 0.3;
-    int count = 0, rojo = 0, verde = 0, azul = 0, intensity = 0;
+    int count = 0, rojo = 0, verde = 0, azul = 0, intensity = 32;
+
+    uint8_t payload[4];
 
     OSCCONbits.OSTS = 1;
 
@@ -2974,26 +2978,68 @@ void main(void) {
 
 
             printf("Luminosidad: %f - CO2: %d - Humedad Relativa: %d - Velocidad Ventilador: %f - Leds: R%d G%d B%d I%d - Temperatura: %d\n", lux_value, co2_prediction, lecturas[1], velocidad_pwm, rojo, verde, azul, intensity, lecturas[2]);
-            send_frame(1, uint16_t (lux_value >> 8));
-            send_frame(1, uint16_t (lux_value));
-            send_frame(2, uint16_t (co2_prediction >> 8));
-            send_frame(2, uint16_t (co2_prediction));
-            send_frame(3, uint16_t (lecturas[1]));
-            send_frame(4, uint16_t (velocidad_pwm));
-            send_frame(5, uint16_t (rojo));
-            send_frame(5, uint16_t (verde));
-            send_frame(5, uint16_t (azul));
-            send_frame(5, uint16_t (intensity));
-            send_frame(6, uint16_t (lecturas[2]));
+
+
+
+            unsigned int lux_int = (unsigned int)lux_value;
+            payload[0] = (lux_int >> 8) & 0xFF;
+            payload[1] = (lux_int) & 0xFF;
+            send_frame(0x01, 2, payload);
+
+
+            payload[0] = (co2_prediction >> 8) & 0xFF;
+            payload[1] = (co2_prediction) & 0xFF;
+            send_frame(0x02, 2, payload);
+
+
+
+            unsigned int hum_int = (unsigned int)lecturas[1];
+            payload[0] = (hum_int >> 8) & 0xFF;
+            payload[1] = (hum_int) & 0xFF;
+            send_frame(0x03, 2, payload);
+
+
+
+
+            uint8_t fan_percent = (uint8_t)(velocidad_pwm * 100);
+            payload[0] = fan_percent;
+            send_frame(0x04, 1, payload);
+
+
+
+            payload[0] = (uint8_t)rojo;
+            payload[1] = (uint8_t)verde;
+            payload[2] = (uint8_t)azul;
+            payload[3] = (uint8_t)intensity;
+            send_frame(0x05, 4, payload);
+
+
+
+            payload[0] = (uint8_t)lecturas[2];
+            send_frame(0x06, 1, payload);
 
             count = 0;
         }
 
         if (count == 1) {
-            printf("Ruido: %d\n", lecturas[0]);
-            send_frame(0, uint16_t (lecturas[0]));
+            uint8_t noise_category = 0;
+            int adc_noise = lecturas[0];
+
+            if (adc_noise <= 400) {
+                noise_category = 0;
+            } else if (adc_noise <= 900) {
+                noise_category = 1;
+            } else {
+                noise_category = 2;
+            }
+
+            printf("Ruido: %d\n", noise_category);
+
+            payload[0] = noise_category;
+            send_frame(0x00, 1, payload);
         }
 
+        set_PWM(20000, velocidad_pwm);
         set_leds(rojo, verde, azul, intensity);
 
         count++;

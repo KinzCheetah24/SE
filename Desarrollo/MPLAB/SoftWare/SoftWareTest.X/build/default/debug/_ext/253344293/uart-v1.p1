@@ -350,8 +350,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;../../Functions/uart-v1.c: 23:     PIE1bits.TXIE = 0;
 [e = . . _PIE1bits 0 4 -> -> 0 `i `uc ]
 "24
-[; ;../../Functions/uart-v1.c: 24:     PIE1bits.RCIE = 0;
-[e = . . _PIE1bits 0 5 -> -> 0 `i `uc ]
+[; ;../../Functions/uart-v1.c: 24:     PIE1bits.RCIE = 1;
+[e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
 "26
 [; ;../../Functions/uart-v1.c: 26:     RCSTAbits.SPEN = 1;
 [e = . . _RCSTAbits 0 7 -> -> 1 `i `uc ]
@@ -451,25 +451,25 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 148 ]
 }
 "61
-[; ;../../Functions/uart-v1.c: 61: void send_frame(uint8_t command, uint16_t longitud, uint16_t* datos) {
-[v _send_frame `(v ~T0 @X0 1 ef3`uc`us`*us ]
+[; ;../../Functions/uart-v1.c: 61: void send_frame(uint8_t command, uint8_t length, uint8_t *data) {
+[v _send_frame `(v ~T0 @X0 1 ef3`uc`uc`*uc ]
 {
 [e :U _send_frame ]
 [v _command `uc ~T0 @X0 1 r1 ]
-[v _longitud `us ~T0 @X0 1 r2 ]
-[v _datos `*us ~T0 @X0 1 r3 ]
+[v _length `uc ~T0 @X0 1 r2 ]
+[v _data `*uc ~T0 @X0 1 r3 ]
 [f ]
 "62
 [; ;../../Functions/uart-v1.c: 62:     uart_write(0xAA);
 [e ( _uart_write (1 -> -> 170 `i `us ]
 "63
-[; ;../../Functions/uart-v1.c: 63:     uart_write(longitud);
-[e ( _uart_write (1 _longitud ]
+[; ;../../Functions/uart-v1.c: 63:     uart_write(length);
+[e ( _uart_write (1 -> _length `us ]
 "64
 [; ;../../Functions/uart-v1.c: 64:     uart_write(command);
 [e ( _uart_write (1 -> _command `us ]
 "66
-[; ;../../Functions/uart-v1.c: 66:     for (int i = 0 ; i < longitud ; i++) {
+[; ;../../Functions/uart-v1.c: 66:     for (int i = 0 ; i < length ; i++) {
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
@@ -477,14 +477,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 153 ]
 {
 "67
-[; ;../../Functions/uart-v1.c: 67:         uart_write(datos[i]);
-[e ( _uart_write (1 *U + _datos * -> _i `x -> -> # *U _datos `i `x ]
+[; ;../../Functions/uart-v1.c: 67:         uart_write(data[i]);
+[e ( _uart_write (1 -> *U + _data * -> _i `x -> -> # *U _data `i `x `us ]
 "68
 [; ;../../Functions/uart-v1.c: 68:     }
 }
 [e ++ _i -> 1 `i ]
 [e :U 156 ]
-[e $ < -> _i `ui -> _longitud `ui 153  ]
+[e $ < _i -> _length `i 153  ]
 [e :U 154 ]
 }
 "70

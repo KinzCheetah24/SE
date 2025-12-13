@@ -317,3 +317,21 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;../../Functions/pwm-v1.c: 24: }
 [e :UE 138 ]
 }
+"26
+[; ;../../Functions/pwm-v1.c: 26: void set_PWM(int freq, float porcentaje) {
+[v _set_PWM `(v ~T0 @X0 1 ef2`i`f ]
+{
+[e :U _set_PWM ]
+[v _freq `i ~T0 @X0 1 r1 ]
+[v _porcentaje `f ~T0 @X0 1 r2 ]
+[f ]
+"27
+[; ;../../Functions/pwm-v1.c: 27:     PR2 = 5000000 / (4 * freq * 1) - 1;
+[e = _PR2 -> - / -> 5000000 `l -> * * -> 4 `i _freq -> 1 `i `l -> -> 1 `i `l `uc ]
+"28
+[; ;../../Functions/pwm-v1.c: 28:     CCPR1L = PR2 * porcentaje;
+[e = _CCPR1L -> * -> -> _PR2 `i `f _porcentaje `uc ]
+"29
+[; ;../../Functions/pwm-v1.c: 29: }
+[e :UE 139 ]
+}

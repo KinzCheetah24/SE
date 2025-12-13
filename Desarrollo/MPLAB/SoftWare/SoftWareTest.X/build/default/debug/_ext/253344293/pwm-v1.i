@@ -2570,3 +2570,8 @@ void init_PWM(int freq, float porcentaje)
     CCP1CONbits.CCP1M = 0b1100;
     CCPR1L = PR2 * porcentaje;
 }
+
+void set_PWM(int freq, float porcentaje) {
+    PR2 = 5000000 / (4 * freq * 1) - 1;
+    CCPR1L = PR2 * porcentaje;
+}

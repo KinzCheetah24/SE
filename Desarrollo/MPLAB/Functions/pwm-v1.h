@@ -10,4 +10,6 @@
 
 void init_PWM(int freq, float porcetaje);
 
+void set_PWM(int freq, float porcentaje);
+
 #endif	/* PWM_V1_H */
