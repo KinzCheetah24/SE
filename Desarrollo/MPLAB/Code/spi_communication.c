@@ -31,6 +31,31 @@
 
 #include "../../Functions/spi-master-v1.h"
 
+void set_leds(int blue, int green, int red) {
+    //Start frame
+    spi_write_read(0x00);
+    spi_write_read(0x00);
+    spi_write_read(0x00);
+    spi_write_read(0x00);
+
+    for (int i = 0 ; i < 8 ; i++) {
+        //LED frame
+        spi_write_read(0xFF);  // 111 + 5 bytes brightness adjustment
+        spi_write_read(0x00 | blue);  // BLUE level
+        spi_write_read(0x00 | green);  // GREEN level
+        spi_write_read(0x00 | red);  // RED level
+    }
+
+    //END Frame
+    spi_write_read(0xFF);
+    spi_write_read(0xFF);
+    spi_write_read(0xFF);
+    spi_write_read(0xFF);
+}
+
 void main(void) {
+    while(1){
+        set_leds(0, 0, 0);
+    }
 }
 
