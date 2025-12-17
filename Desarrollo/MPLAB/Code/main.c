@@ -35,67 +35,79 @@
 #include "../Functions/spi-master-v1.h"
 #include "../Functions/i2c-v2.h"
 
-// Dirección I2C: 0x5A (90 decimal)
+#include <stdint.h> // Importante para uint8_t, etc.
+
+#include "../Functions/pwm-v1.h"
+#include "../Functions/uart-v1.h"
+#include "../Functions/adc-v1.h"
+#include "../Functions/spi-master-v1.h"
+#include "../Functions/i2c-v2.h"
+
+// --- DEFINICIONES DE SENSORES I2C ---
 #define IAQ_ADDR 0x5A
-
-// Dirección del esclavo (7 bits = 0x10) [cite: 804]
-// Para escritura (RW=0) -> 0x20
-// Para lectura  (RW=1) -> 0x21
 #define VEML7700_ADDR  0x10 
+#define VEML_CMD_CONF  0x00 
+#define VEML_CMD_ALS   0x04 
 
-// Comandos de registro [cite: 821]
-#define VEML_CMD_CONF  0x00 // Registro de configuración
-#define VEML_CMD_ALS   0x04 // Registro de lectura de luz ambiental
+// --- VARIABLES GLOBALES ---
+volatile int lecturas[3];       // [0]: Ruido, [1]: Humedad, [2]: Temperatura
+volatile int canal_actual = 0;
+volatile int conversion_lista = 0;
 
-int dato, canal_actual = 0, conversion_lista = 0;
-int lecturas[3];
-
-// Variables para almacenar los resultados combinados
+// Variables de sensores I2C
 unsigned int co2_prediction = 0;
 unsigned int tvoc_prediction = 0;
-unsigned char status = 0;
+unsigned char iaq_status = 0;
 unsigned long resistance = 0;
+
+// Variables de Actuadores (Desde PC)
+float velocidad_pwm = 0.4;
+int rojo = 0, verde = 0, azul = 0, intensity = 5;
 
 void IAQ_read(unsigned char* buffer) {
     i2c_start();
-        
-        // Dirección 0x5A desplazada + bit de lectura (1) = 0xB5 [cite: 93]
-        // i2c_write retorna 1 si hubo ACK, 0 si hubo NACK.
-        if (i2c_write((IAQ_ADDR << 1) | 1)) { 
-            
-            // Leer Bytes 0 a 7 con ACK (master_ack = 1)
-            for (int i = 0; i < 8; i++) {
-                buffer[i] = i2c_read(1); // 1 = ACK
-            }
-            
-            // Leer el último Byte (8) con NACK (master_ack = 0)
-            // El maestro debe enviar NACK al final 
-            buffer[8] = i2c_read(0); // 0 = NACK
-            
-            i2c_stop();
+    if (i2c_write((IAQ_ADDR << 1) | 1)) { 
+        for (int i = 0; i < 8; i++) buffer[i] = i2c_read(1);
+        buffer[8] = i2c_read(0);
+        i2c_stop();
 
-            // --- Procesamiento de Datos ---
-            
-            // 1. Predicción CO2 (Bytes 0 y 1) [cite: 353]
-            // Fórmula: (Byte0 * 256) + Byte1
-            co2_prediction = ((unsigned int)buffer[0] << 8) | buffer[1];
+        // Guardar valores
+        co2_prediction = ((unsigned int)buffer[0] << 8) | buffer[1];
+        iaq_status = buffer[2];
+        resistance = ((unsigned long)buffer[4] << 16) | ((unsigned long)buffer[5] << 8) | buffer[6];
+        tvoc_prediction = ((unsigned int)buffer[7] << 8) | buffer[8];
+    } else {
+        i2c_stop();
+    }
+}
 
-            // 2. Estado (Byte 2) [cite: 109]
-            // 0x00: OK, 0x10: Calentando, 0x01: Ocupado, 0x80: Error
-            status = buffer[2];
+void VEML_Write(unsigned char command, unsigned int data) {
+    i2c_start();
+    i2c_write((VEML7700_ADDR << 1) | 0);
+    i2c_write(command);
+    i2c_write(data & 0xFF);        
+    i2c_write((data >> 8) & 0xFF); 
+    i2c_stop();
+}
 
-            // 3. Resistencia (Bytes 4, 5 y 6) - Byte 3 es siempre 0 [cite: 370]
-            resistance = ((unsigned long)buffer[4] << 16) | 
-                         ((unsigned long)buffer[5] << 8) | 
-                         buffer[6];
+unsigned int VEML_Read(unsigned char command) {
+    unsigned char lsb, msb;
+    unsigned int resultado;
+    i2c_start();
+    i2c_write((VEML7700_ADDR << 1) | 0);
+    i2c_write(command);
+    i2c_rstart(); 
+    i2c_write((VEML7700_ADDR << 1) | 1);
+    lsb = i2c_read(1); 
+    msb = i2c_read(0); 
+    i2c_stop();
+    resultado = ((unsigned int)msb << 8) | lsb;
+    return resultado;
+}
 
-            // 4. TVOC (Bytes 7 y 8) 
-            tvoc_prediction = ((unsigned int)buffer[7] << 8) | buffer[8];
-            
-        } else {
-            // El sensor no respondió (NACK en la dirección)
-            i2c_stop();
-        }
+void VEML_Setup() {
+    VEML_Write(VEML_CMD_CONF, 0x0800); // Configuración base
+    __delay_ms(200); // Pequeña espera inicial (solo al arranque)
 }
 
 void i2c_init_setup(void) {
@@ -109,60 +121,6 @@ void i2c_init_setup(void) {
     // 4. Limpiar estado y bandera
     SSPSTAT = 0x00; // Slew rate control disabled (standard speed)
     PIR1bits.SSPIF = 0;
-}
-
-// Función para escribir 16 bits en un registro del VEML7700
-void VEML_Write(unsigned char command, unsigned int data) {
-    i2c_start();
-    i2c_write((VEML7700_ADDR << 1) | 0); // Dirección 0x20 (Write)
-    i2c_write(command);                  // Registro al que queremos escribir
-    
-    // El datasheet especifica enviar primero el LSB y luego el MSB [cite: 775, 777]
-    i2c_write(data & 0xFF);        // LSB
-    i2c_write((data >> 8) & 0xFF); // MSB
-    
-    i2c_stop();
-}
-
-// Función para leer 16 bits de un registro
-unsigned int VEML_Read(unsigned char command) {
-    unsigned char lsb, msb;
-    unsigned int resultado;
-
-    // Paso 1: Indicar qué registro queremos leer (Write operation)
-    i2c_start();
-    i2c_write((VEML7700_ADDR << 1) | 0); // 0x20 Write
-    i2c_write(command);
-    
-    // Paso 2: Reiniciar comunicación para leer (Repeated Start)
-    i2c_rstart(); 
-    i2c_write((VEML7700_ADDR << 1) | 1); // 0x21 Read
-
-    // Paso 3: Leer los dos bytes
-    lsb = i2c_read(1); // ACK (queremos leer otro byte después de este)
-    msb = i2c_read(0); // NACK (es el último byte, cerramos comunicación) [cite: 787]
-    
-    i2c_stop();
-
-    // Reconstruir el valor de 16 bits
-    resultado = ((unsigned int)msb << 8) | lsb;
-    return resultado;
-}
-
-// Configuración inicial del sensor
-void VEML_Setup() {
-    // Configuración básica (Registro 0x00):
-    // ALS_SD (Bit 0) = 0 (Encender sensor) [cite: 821]
-    // ALS_IT (Bits 9:6) = 0000 (100ms integración)
-    // ALS_SM (Bits 12:11) = 01 (Ganancia x2)
-    // Bits 12:11 = 01 -> 0x0800
-    // El resto en 0. Valor total a escribir = 0x0800.
-    
-    VEML_Write(VEML_CMD_CONF, 0x0800);
-    
-    // Importante: Esperar un poco tras encender para que haga la primera medida
-    // Según tabla de refresco, para IT=100ms, esperar min 600ms es seguro [cite: 893]
-    __delay_ms(600);
 }
 
 void init_TMR0(void)
@@ -210,7 +168,7 @@ void set_leds(int red, int green, int blue, int intensity) {
     spi_write_read(0x00);
     spi_write_read(0x00);
 
-    for (int i = 0 ; i < 8 ; i++) {
+    for (int i = 0 ; i < 10 ; i++) {
         //LED frame
         spi_write_read(0b11100000 | intensity);  // 111 + 5 bytes brightness adjustment
         spi_write_read(0x00 | blue);  // BLUE level
@@ -225,74 +183,118 @@ void set_leds(int red, int green, int blue, int intensity) {
     spi_write_read(0xFF);
 }
 
-void main(void) {
-    unsigned char buffer[9]; // Buffer para los 9 bytes del sensor 
-    unsigned int luz_raw;
-    float lux_value, velocidad_pwm = 0.3;
-    int count = 0, rojo = 0, verde = 0, azul = 0, intensity = 32;
-    
-    uint8_t payload[4];
-    
-    OSCCONbits.OSTS = 1; // External cristal
+void Check_UART_RX(void) {
+    if(!PIR1bits.RCIF) return; // Si no hay datos, salir inmediatamente
 
-    init_TMR0();
+    // Pequeño truco: Si llega un byte, asumimos que llega la trama completa rápido (9600 baud es lento pero continuo)
+    // Leemos el cabecera
+    uint8_t h = RCREG;
+    if(h != 0xAA) return; 
+
+    // Esperar (bloqueo mínimo) al resto de la cabecera. 
+    // Al ser polling dentro del if, el impacto es bajo.
+    while(!PIR1bits.RCIF); uint8_t len = RCREG;
+    while(!PIR1bits.RCIF); uint8_t cmd = RCREG;
     
-    INTCONbits.GIE = 1;
-    INTCONbits.PEIE = 1;
-   
+    uint8_t data_len = len - 1;
+    uint8_t buffer[5];
+    
+    for(int i=0; i<data_len && i<5; i++) {
+        while(!PIR1bits.RCIF);
+        buffer[i] = RCREG;
+    }
+    
+    // Leer CRC dummy
+    while(!PIR1bits.RCIF); RCREG;
+    while(!PIR1bits.RCIF); RCREG;
+
+    // --- EJECUTAR COMANDO RECIBIDO ---
+    if (cmd == 0x04 && data_len >= 1) { // Ventilador
+        int val = buffer[0];
+        if(val > 100) val = 100;
+        velocidad_pwm = (float)val / 100.0;
+        set_PWM(20000, velocidad_pwm); // Actualizar PWM inmediatamente
+    }
+    else if (cmd == 0x05 && data_len >= 4) { // LEDs
+        rojo = buffer[0];
+        verde = buffer[1];
+        azul = buffer[2];
+        intensity = buffer[3] & 0x1F;
+        set_leds(rojo, verde, azul, intensity); // Actualizar LEDs inmediatamente
+    }
+}
+
+void main(void) {
+    unsigned char buffer[9];
+    uint8_t payload[4];
+    unsigned int luz_raw;
+    float lux_value;
+    int count = 0;
+
+    OSCCONbits.OSTS = 1; 
+
+    // Inicializaciones
+    init_ADC();
+    uart_init();     // 9600 baud
+    i2c_init_setup();
+    init_spi();
     init_PWM(20000, velocidad_pwm);
     
-    uart_init();
-    init_ADC();
-    
-    //i2c_init_setup(); // IMPORTANTE: Inicializar el periférico
-    //VEML_Setup();     // Encender y configurar el sensor de luz
+    // Configurar interrupciones al final
+    init_TMR0();
+    INTCONbits.GIE = 1;
+    INTCONbits.PEIE = 1;
 
-    while (1) {
+    // Setup inicial de sensores lentos
+    VEML_Setup();
+    set_leds(0, 0, 255, 5);
+   
+    while(1){
+        // TRUCO: En vez de dormir 500ms del tirón, dormimos 10ms 50 veces.
+        // Así podemos revisar si el PC nos habla constantemente.
+        for(int k=0; k<50; k++) {
+            __delay_ms(10);
+            Check_UART_RX(); // <--- DESCOMENTADO Y VITAL
+        }
+        
+        count++;
+        
         if (count == 4) {
-            //IAQ_read(buffer);
+            IAQ_read(buffer);
 
-            //luz_raw = VEML_Read(VEML_CMD_ALS);
-            //lux_value =  (float)luz_raw * 0.042;
+            luz_raw = VEML_Read(VEML_CMD_ALS);
+            lux_value =  (float)luz_raw * 0.042;
             
-            printf("Luminosidad: %f - CO2: %d - Humedad Relativa: %d - Velocidad Ventilador: %f - Leds: R%d G%d B%d I%d - Temperatura: %d\n", lux_value, co2_prediction, lecturas[1], velocidad_pwm, rojo, verde, azul, intensity, lecturas[2]);
-            
-            // --- 1. LUMINOSIDAD (Comando 0x01, 2 bytes) [cite: 109] ---
-            // Convertir float a entero para poder dividir en bytes
+            // --- 1. LUMINOSIDAD (Comando 0x01, 2 bytes) ---
             unsigned int lux_int = (unsigned int)lux_value; 
             payload[0] = (lux_int >> 8) & 0xFF; // MSB
             payload[1] = (lux_int) & 0xFF;      // LSB
             send_frame(0x01, 2, payload);
 
-            // --- 2. CO2 (Comando 0x02, 2 bytes) [cite: 109] ---
+            // --- 2. CO2 (Comando 0x02, 2 bytes) ---
             payload[0] = (co2_prediction >> 8) & 0xFF;
             payload[1] = (co2_prediction) & 0xFF;
             send_frame(0x02, 2, payload);
 
-            // --- 3. HUMEDAD (Comando 0x03, 2 bytes) [cite: 109] ---
-            // Asumiendo que lecturas[1] es un entero 0-100
+            // --- 3. HUMEDAD (Comando 0x03, 2 bytes) ---
             unsigned int hum_int = (unsigned int)lecturas[1];
             payload[0] = (hum_int >> 8) & 0xFF;
             payload[1] = (hum_int) & 0xFF;
             send_frame(0x03, 2, payload);
 
-            // --- 4. VENTILADOR (Comando 0x04, 1 byte) [cite: 109] ---
-            // Requisito: Porcentaje 0-100% 
-            // Tienes 0.3 -> Convertir a 30
+            // --- 4. VENTILADOR (Comando 0x04, 1 byte) ---
             uint8_t fan_percent = (uint8_t)(velocidad_pwm * 100); 
             payload[0] = fan_percent;
             send_frame(0x04, 1, payload);
 
-            // --- 5. LEDS (Comando 0x05, 4 bytes) [cite: 109] ---
-            // Orden: Rojo, Verde, Azul, Brillo [cite: 115]
+            // --- 5. LEDS (Comando 0x05, 4 bytes) ---
             payload[0] = (uint8_t)rojo;
             payload[1] = (uint8_t)verde;
             payload[2] = (uint8_t)azul;
             payload[3] = (uint8_t)intensity;
             send_frame(0x05, 4, payload);
 
-            // --- 6. TEMPERATURA (Comando 0x06, 1 byte) [cite: 109] ---
-            // Requisito: Sin decimales [cite: 116]
+            // --- 6. TEMPERATURA (Comando 0x06, 1 byte) ---
             payload[0] = (uint8_t)lecturas[2];
             send_frame(0x06, 1, payload);
             
@@ -311,16 +313,10 @@ void main(void) {
                 noise_category = 2; // Alto
             }
             
-            printf("Ruido: %d\n", noise_category);
-            
             payload[0] = noise_category;
             send_frame(0x00, 1, payload);
         }
         
-        set_PWM(20000, velocidad_pwm);
-        set_leds(rojo, verde, azul, intensity);
-        
-        count++;
-        __delay_ms(1000);
+        //printf("Luz: %i CO2: %i\r\nValores: %i %i %i\r\n", lux_value, co2_prediction, lecturas[0], lecturas[1], lecturas[2]);
     }
 }

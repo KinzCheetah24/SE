@@ -29,9 +29,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../../Functions/pwm-v1.h"
-#include "../../Functions/uart-v1.h"
-#include "../../Functions/adc-v1.h"
+#include "../Functions/pwm-v1.h"
+#include "../Functions/uart-v1.h"
+#include "../Functions/adc-v1.h"
 
 int dato, count = 0, canal_actual = 0, conversion_lista = 0;
 int lecturas[3];
@@ -88,14 +88,14 @@ void main(void) {
     INTCONbits.GIE = 1;
     INTCONbits.PEIE = 1;
    
-    init_PWM(20000, 0.3);
+    init_PWM(20000, 0.4);
     
     uart_init();
     init_ADC();
 
     while (1) {
-        printf("Valores: %d %d %d\n", lecturas[0], lecturas[1], lecturas[2]);
-        send_frame(4, 16);
+        printf("Valores: %d %d %d\r\n", lecturas[0], lecturas[1], lecturas[2]);
+        //send_frame(4, 16, lecturas);
     }
 }
 

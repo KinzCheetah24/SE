@@ -4,6 +4,13 @@
 
 #define _XTAL_FREQ 20000000 // necessary for __delay_us
 
+void init_spi() {
+    TRISCbits.TRISC0 = 0;
+    TRISCbits.TRISC5 = 0;
+    
+    spi_clk = 0;
+    spi_dat_out = 0;
+}
 
 char spi_write_read(char one_byte)
 {

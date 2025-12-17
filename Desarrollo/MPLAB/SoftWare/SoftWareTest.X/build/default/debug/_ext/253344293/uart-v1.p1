@@ -317,141 +317,141 @@ Version 4.0 HI-TECH Software Intermediate Code
 "3370
 [; ;/opt/microchip/mplabx/v6.25/packs/Microchip/PIC16Fxxx_DFP/1.6.156/xc8/pic/include/proc/pic16f886.h: 3370: __asm("EECON2 equ 018Dh");
 [; <" EECON2 equ 018Dh ;# ">
-"10 ../../Functions/uart-v1.c
-[; ;../../Functions/uart-v1.c: 10: void uart_init(void)
+"4 ../../Functions/uart-v1.c
+[; ;../../Functions/uart-v1.c: 4: void uart_init(void)
 [v _uart_init `(v ~T0 @X0 1 ef ]
-"11
-[; ;../../Functions/uart-v1.c: 11: {
+"5
+[; ;../../Functions/uart-v1.c: 5: {
 {
 [e :U _uart_init ]
 [f ]
-"12
-[; ;../../Functions/uart-v1.c: 12:     TXSTAbits.BRGH = 0;
+"6
+[; ;../../Functions/uart-v1.c: 6:     TXSTAbits.BRGH = 0;
 [e = . . _TXSTAbits 0 2 -> -> 0 `i `uc ]
-"13
-[; ;../../Functions/uart-v1.c: 13:     BAUDCTLbits.BRG16 = 0;
+"7
+[; ;../../Functions/uart-v1.c: 7:     BAUDCTLbits.BRG16 = 0;
 [e = . . _BAUDCTLbits 0 3 -> -> 0 `i `uc ]
-"16
-[; ;../../Functions/uart-v1.c: 16:     SPBRGH = 0;
+"10
+[; ;../../Functions/uart-v1.c: 10:     SPBRGH = 0;
 [e = _SPBRGH -> -> 0 `i `uc ]
-"17
-[; ;../../Functions/uart-v1.c: 17:     SPBRG = 32;
+"11
+[; ;../../Functions/uart-v1.c: 11:     SPBRG = 32;
 [e = _SPBRG -> -> 32 `i `uc ]
-"19
-[; ;../../Functions/uart-v1.c: 19:     TXSTAbits.SYNC = 0;
+"13
+[; ;../../Functions/uart-v1.c: 13:     TXSTAbits.SYNC = 0;
 [e = . . _TXSTAbits 0 4 -> -> 0 `i `uc ]
-"20
-[; ;../../Functions/uart-v1.c: 20:     TXSTAbits.TX9 = 0;
+"14
+[; ;../../Functions/uart-v1.c: 14:     TXSTAbits.TX9 = 0;
 [e = . . _TXSTAbits 0 6 -> -> 0 `i `uc ]
-"21
-[; ;../../Functions/uart-v1.c: 21:     RCSTAbits.RX9 = 0;
+"15
+[; ;../../Functions/uart-v1.c: 15:     RCSTAbits.RX9 = 0;
 [e = . . _RCSTAbits 0 6 -> -> 0 `i `uc ]
-"23
-[; ;../../Functions/uart-v1.c: 23:     PIE1bits.TXIE = 0;
+"17
+[; ;../../Functions/uart-v1.c: 17:     PIE1bits.TXIE = 0;
 [e = . . _PIE1bits 0 4 -> -> 0 `i `uc ]
-"24
-[; ;../../Functions/uart-v1.c: 24:     PIE1bits.RCIE = 1;
-[e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
-"26
-[; ;../../Functions/uart-v1.c: 26:     RCSTAbits.SPEN = 1;
+"18
+[; ;../../Functions/uart-v1.c: 18:     PIE1bits.RCIE = 0;
+[e = . . _PIE1bits 0 5 -> -> 0 `i `uc ]
+"20
+[; ;../../Functions/uart-v1.c: 20:     RCSTAbits.SPEN = 1;
 [e = . . _RCSTAbits 0 7 -> -> 1 `i `uc ]
-"28
-[; ;../../Functions/uart-v1.c: 28:     TXSTAbits.TXEN = 1;
+"22
+[; ;../../Functions/uart-v1.c: 22:     TXSTAbits.TXEN = 1;
 [e = . . _TXSTAbits 0 5 -> -> 1 `i `uc ]
-"29
-[; ;../../Functions/uart-v1.c: 29:     RCSTAbits.CREN = 1;
+"23
+[; ;../../Functions/uart-v1.c: 23:     RCSTAbits.CREN = 1;
 [e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
-"31
-[; ;../../Functions/uart-v1.c: 31: }
-[e :UE 138 ]
+"25
+[; ;../../Functions/uart-v1.c: 25: }
+[e :UE 140 ]
 }
-"34
-[; ;../../Functions/uart-v1.c: 34: void putch(char c)
+"28
+[; ;../../Functions/uart-v1.c: 28: void putch(char c)
 [v _putch `(v ~T0 @X0 1 ef1`uc ]
-"35
-[; ;../../Functions/uart-v1.c: 35: {
+"29
+[; ;../../Functions/uart-v1.c: 29: {
 {
 [e :U _putch ]
-"34
-[; ;../../Functions/uart-v1.c: 34: void putch(char c)
+"28
+[; ;../../Functions/uart-v1.c: 28: void putch(char c)
 [v _c `uc ~T0 @X0 1 r1 ]
-"35
-[; ;../../Functions/uart-v1.c: 35: {
+"29
+[; ;../../Functions/uart-v1.c: 29: {
 [f ]
-"36
-[; ;../../Functions/uart-v1.c: 36:     while(!TXIF);
-[e $U 140  ]
-[e :U 141 ]
-[e :U 140 ]
-[e $ ! _TXIF 141  ]
+"30
+[; ;../../Functions/uart-v1.c: 30:     while(!TXIF);
+[e $U 142  ]
+[e :U 143 ]
 [e :U 142 ]
-"37
-[; ;../../Functions/uart-v1.c: 37:     TXREG = c;
+[e $ ! _TXIF 143  ]
+[e :U 144 ]
+"31
+[; ;../../Functions/uart-v1.c: 31:     TXREG = c;
 [e = _TXREG -> _c `uc ]
-"38
-[; ;../../Functions/uart-v1.c: 38: }
-[e :UE 139 ]
+"32
+[; ;../../Functions/uart-v1.c: 32: }
+[e :UE 141 ]
 }
-"43
-[; ;../../Functions/uart-v1.c: 43: uint16_t uart_read(void)
+"37
+[; ;../../Functions/uart-v1.c: 37: uint16_t uart_read(void)
 [v _uart_read `(us ~T0 @X0 1 ef ]
-"44
-[; ;../../Functions/uart-v1.c: 44: {
+"38
+[; ;../../Functions/uart-v1.c: 38: {
 {
 [e :U _uart_read ]
 [f ]
-"45
-[; ;../../Functions/uart-v1.c: 45:     while(!PIR1bits.RCIF);
-[e $U 144  ]
-[e :U 145 ]
-[e :U 144 ]
-[e $ ! != -> . . _PIR1bits 0 5 `i -> 0 `i 145  ]
-[e :U 146 ]
-"48
-[; ;../../Functions/uart-v1.c: 48:     if(RCSTAbits.OERR){
-[e $ ! != -> . . _RCSTAbits 0 1 `i -> 0 `i 147  ]
-{
-"49
-[; ;../../Functions/uart-v1.c: 49:         RCSTAbits.CREN = 0;
-[e = . . _RCSTAbits 0 4 -> -> 0 `i `uc ]
-"50
-[; ;../../Functions/uart-v1.c: 50:         RCSTAbits.CREN = 1;
-[e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
-"51
-[; ;../../Functions/uart-v1.c: 51:     }
-}
+"39
+[; ;../../Functions/uart-v1.c: 39:     while(!PIR1bits.RCIF);
+[e $U 146  ]
 [e :U 147 ]
-"53
-[; ;../../Functions/uart-v1.c: 53:     return RCREG;
-[e ) -> _RCREG `us ]
-[e $UE 143  ]
-"54
-[; ;../../Functions/uart-v1.c: 54: }
-[e :UE 143 ]
+[e :U 146 ]
+[e $ ! != -> . . _PIR1bits 0 5 `i -> 0 `i 147  ]
+[e :U 148 ]
+"42
+[; ;../../Functions/uart-v1.c: 42:     if(RCSTAbits.OERR){
+[e $ ! != -> . . _RCSTAbits 0 1 `i -> 0 `i 149  ]
+{
+"43
+[; ;../../Functions/uart-v1.c: 43:         RCSTAbits.CREN = 0;
+[e = . . _RCSTAbits 0 4 -> -> 0 `i `uc ]
+"44
+[; ;../../Functions/uart-v1.c: 44:         RCSTAbits.CREN = 1;
+[e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
+"45
+[; ;../../Functions/uart-v1.c: 45:     }
 }
-"56
-[; ;../../Functions/uart-v1.c: 56: void uart_write(uint16_t c) {
+[e :U 149 ]
+"47
+[; ;../../Functions/uart-v1.c: 47:     return RCREG;
+[e ) -> _RCREG `us ]
+[e $UE 145  ]
+"48
+[; ;../../Functions/uart-v1.c: 48: }
+[e :UE 145 ]
+}
+"50
+[; ;../../Functions/uart-v1.c: 50: void uart_write(uint16_t c) {
 [v _uart_write `(v ~T0 @X0 1 ef1`us ]
 {
 [e :U _uart_write ]
 [v _c `us ~T0 @X0 1 r1 ]
 [f ]
-"57
-[; ;../../Functions/uart-v1.c: 57:     while(!TXIF);
-[e $U 149  ]
-[e :U 150 ]
-[e :U 149 ]
-[e $ ! _TXIF 150  ]
+"51
+[; ;../../Functions/uart-v1.c: 51:     while(!TXIF);
+[e $U 151  ]
+[e :U 152 ]
 [e :U 151 ]
-"58
-[; ;../../Functions/uart-v1.c: 58:     TXREG = c;
+[e $ ! _TXIF 152  ]
+[e :U 153 ]
+"52
+[; ;../../Functions/uart-v1.c: 52:     TXREG = c;
 [e = _TXREG -> _c `uc ]
-"59
-[; ;../../Functions/uart-v1.c: 59: }
-[e :UE 148 ]
+"53
+[; ;../../Functions/uart-v1.c: 53: }
+[e :UE 150 ]
 }
-"61
-[; ;../../Functions/uart-v1.c: 61: void send_frame(uint8_t command, uint8_t length, uint8_t *data) {
+"55
+[; ;../../Functions/uart-v1.c: 55: void send_frame(uint8_t command, uint8_t length, uint8_t *data) {
 [v _send_frame `(v ~T0 @X0 1 ef3`uc`uc`*uc ]
 {
 [e :U _send_frame ]
@@ -459,22 +459,22 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _length `uc ~T0 @X0 1 r2 ]
 [v _data `*uc ~T0 @X0 1 r3 ]
 [f ]
-"62
-[; ;../../Functions/uart-v1.c: 62:     uart_write(0xAA);
+"57
+[; ;../../Functions/uart-v1.c: 57:     uart_write(0xAA);
 [e ( _uart_write (1 -> -> 170 `i `us ]
+"60
+[; ;../../Functions/uart-v1.c: 60:     uart_write(length + 1);
+[e ( _uart_write (1 -> + -> _length `i -> 1 `i `us ]
 "63
-[; ;../../Functions/uart-v1.c: 63:     uart_write(length);
-[e ( _uart_write (1 -> _length `us ]
-"64
-[; ;../../Functions/uart-v1.c: 64:     uart_write(command);
+[; ;../../Functions/uart-v1.c: 63:     uart_write(command);
 [e ( _uart_write (1 -> _command `us ]
 "66
 [; ;../../Functions/uart-v1.c: 66:     for (int i = 0 ; i < length ; i++) {
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
-[e $U 156  ]
-[e :U 153 ]
+[e $U 158  ]
+[e :U 155 ]
 {
 "67
 [; ;../../Functions/uart-v1.c: 67:         uart_write(data[i]);
@@ -483,17 +483,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;../../Functions/uart-v1.c: 68:     }
 }
 [e ++ _i -> 1 `i ]
+[e :U 158 ]
+[e $ < _i -> _length `i 155  ]
 [e :U 156 ]
-[e $ < _i -> _length `i 153  ]
-[e :U 154 ]
 }
-"70
-[; ;../../Functions/uart-v1.c: 70:     uart_write(0x00);
-[e ( _uart_write (1 -> -> 0 `i `us ]
 "71
 [; ;../../Functions/uart-v1.c: 71:     uart_write(0x00);
 [e ( _uart_write (1 -> -> 0 `i `us ]
 "72
-[; ;../../Functions/uart-v1.c: 72: }
-[e :UE 152 ]
+[; ;../../Functions/uart-v1.c: 72:     uart_write(0x00);
+[e ( _uart_write (1 -> -> 0 `i `us ]
+"83
+[; ;../../Functions/uart-v1.c: 83: }
+[e :UE 154 ]
 }

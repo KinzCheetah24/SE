@@ -1,11 +1,5 @@
-/* 
- * File:   uart-v1.c
- * Author: kinz
- *
- * Created on December 7, 2025, 1:54 PM
- */
-
 #include <xc.h>
+#include <stdio.h>
 
 void uart_init(void)
 {  
@@ -21,7 +15,7 @@ void uart_init(void)
     RCSTAbits.RX9 = 0; /* RX 8 data bit */
 
     PIE1bits.TXIE = 0; /* Disable TX interrupt */
-    PIE1bits.RCIE = 1; /* Enable RX interrupt */
+    PIE1bits.RCIE = 0; /* Enable RX interrupt */ //CAMBIADO
 
     RCSTAbits.SPEN = 1; /* Serial port enable */
 
@@ -59,14 +53,31 @@ void uart_write(uint16_t c) {
 }
 
 void send_frame(uint8_t command, uint8_t length, uint8_t *data) {
-    uart_write(0xAA);           // Header
-    uart_write(length);           // Length (1 byte comando + 2 bytes payload)
-    uart_write(command);        // Command
+    // 1. Cabecera 0xAA (No "170")
+    uart_write(0xAA);
     
+    // 2. Longitud
+    uart_write(length + 1);
+    
+    // 3. Comando
+    uart_write(command);
+    
+    // 4. Datos
     for (int i = 0 ; i < length ; i++) {
         uart_write(data[i]);
     }
     
-    uart_write(0x00);           // CRC 1 (Dummy)
-    uart_write(0x00);           // CRC 2 (Dummy)
+    // 5. CRC (2 bytes) - Sin \r\n
+    uart_write(0x00);
+    uart_write(0x00);
+    
+    /*
+    printf("%u%u%u",0xAA, length + 1, command);
+    
+    for (int i = 0 ; i < length ; i++) {
+        printf("%u", data[i]);
+    }
+    
+    printf("%u%u%\r\n", 0x00,0x00);
+    */
 }

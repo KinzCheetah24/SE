@@ -9,7 +9,9 @@
 # 1 "../../Functions/spi-master-v1.c" 2
 
 # 1 "../../Functions/spi-master-v1.h" 1
-# 16 "../../Functions/spi-master-v1.h"
+# 15 "../../Functions/spi-master-v1.h"
+void init_spi();
+
 char spi_write_read(char one_byte);
 # 3 "../../Functions/spi-master-v1.c" 2
 # 1 "/opt/microchip/xc8/v3.10/pic/include/xc.h" 1 3
@@ -2555,6 +2557,13 @@ extern __bank0 __bit __timeout;
 
 
 
+void init_spi() {
+    TRISCbits.TRISC0 = 0;
+    TRISCbits.TRISC5 = 0;
+
+    PORTCbits.RC0 = 0;
+    PORTCbits.RC5 = 0;
+}
 
 char spi_write_read(char one_byte)
 {
@@ -2564,12 +2573,12 @@ char spi_write_read(char one_byte)
 
     for(x = 8; x > 0; x--)
     {
-        PORTCbits.RC0 = (__bit)((one_byte >> (x - 1)) & 0b00000001);
+        PORTCbits.RC5 = (__bit)((one_byte >> (x - 1)) & 0b00000001);
 
-        PORTCbits.RC5 = 1;
+        PORTCbits.RC0 = 1;
 
-        answer |= (char)PORTAbits.RA5;
-        PORTCbits.RC5 = 0;
+        answer |= (char)PORTCbits.RC1;
+        PORTCbits.RC0 = 0;
 
         if(x > 1)
             answer = answer << 1;

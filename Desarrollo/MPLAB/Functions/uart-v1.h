@@ -10,6 +10,8 @@
 
 void uart_init(void);
 
+void putch(char c);
+
 uint16_t uart_read(void);
 
 void uart_write(uint16_t c);

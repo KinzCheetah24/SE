@@ -3,15 +3,25 @@
 [d edition pro ]
 [d chip 16F886 ]
 [d frameptr 0 ]
-"115 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
+"67 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
+[v _IAQ_read IAQ_read `(v  1 e 1 0 ]
+"84
 [v _VEML_Write VEML_Write `(v  1 e 1 0 ]
-"168
+"93
+[v _VEML_Read VEML_Read `(ui  1 e 2 0 ]
+"108
+[v _VEML_Setup VEML_Setup `(v  1 e 1 0 ]
+"113
+[v _i2c_init_setup i2c_init_setup `(v  1 e 1 0 ]
+"126
 [v _init_TMR0 init_TMR0 `(v  1 e 1 0 ]
-"178
+"136
 [v _interrupt_manager interrupt_manager `II(v  1 e 1 0 ]
-"206
+"164
 [v _set_leds set_leds `(v  1 e 1 0 ]
-"228
+"186
+[v _Check_UART_RX Check_UART_RX `(v  1 e 1 0 ]
+"227
 [v _main main `(v  1 e 1 0 ]
 "14 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/adc-v1.c
 [v _init_ADC init_ADC `(v  1 e 1 0 ]
@@ -31,64 +41,26 @@
 [v _init_PWM init_PWM `(v  1 e 1 0 ]
 "26
 [v _set_PWM set_PWM `(v  1 e 1 0 ]
-"8 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/spi-master-v1.c
+"7 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/spi-master-v1.c
+[v _init_spi init_spi `(v  1 e 1 0 ]
+"15
 [v _spi_write_read spi_write_read `(uc  1 e 1 0 ]
-"10 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/uart-v1.c
+"4 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/uart-v1.c
 [v _uart_init uart_init `(v  1 e 1 0 ]
-"34
-[v _putch putch `(v  1 e 1 0 ]
-"56
+"50
 [v _uart_write uart_write `(v  1 e 1 0 ]
-"61
+"55
 [v _send_frame send_frame `(v  1 e 1 0 ]
-"4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/__fpclassifyf.c
-[v ___fpclassifyf __fpclassifyf `(i  1 e 2 0 ]
-"1 /opt/microchip/xc8/v3.10/pic/sources/c99/common/abs.c
-[v _abs abs `(i  1 e 2 0 ]
 "5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/aldiv.c
 [v ___aldiv __aldiv `(l  1 e 4 0 ]
-"5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/awdiv.c
-[v ___awdiv __awdiv `(i  1 e 2 0 ]
-"5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/awmod.c
-[v ___awmod __awmod `(i  1 e 2 0 ]
-"193 /opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c
-[v _pad pad `(v  1 s 1 pad ]
-"587
-[v _efgtoa efgtoa `(v  1 s 1 efgtoa ]
-"1177
-[v _vfpfcnvrt vfpfcnvrt `(v  1 s 1 vfpfcnvrt ]
-"1817
-[v _vfprintf vfprintf `(i  1 e 2 0 ]
-"4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/fleq.c
-[v ___fleq __fleq `(b  1 e 0 0 ]
-"4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/flge.c
-[v ___flge __flge `(b  1 e 0 0 ]
-"15 /opt/microchip/xc8/v3.10/pic/sources/c99/common/flneg.c
-[v ___flneg __flneg `(d  1 e 4 0 ]
-"3 /opt/microchip/xc8/v3.10/pic/sources/c99/common/floorf.c
-[v _floorf floorf `(f  1 e 4 0 ]
 "43 /opt/microchip/xc8/v3.10/pic/sources/c99/common/fltol.c
 [v ___fltol __fltol `(l  1 e 4 0 ]
-"1 /opt/microchip/xc8/v3.10/pic/sources/c99/common/labs.c
-[v _labs labs `(l  1 e 4 0 ]
-"4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/memcpy.c
-[v _memcpy memcpy `(*.5v  1 e 1 0 ]
-"8 /opt/microchip/xc8/v3.10/pic/sources/c99/common/nf_fputc.c
-[v _fputc fputc `(i  1 e 2 0 ]
-"8 /opt/microchip/xc8/v3.10/pic/sources/c99/common/nf_fputs.c
-[v _fputs fputs `(i  1 e 2 0 ]
-"5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/printf.c
-[v _printf printf `(i  1 e 2 0 ]
 "10 /opt/microchip/xc8/v3.10/pic/sources/c99/common/sprcadd.c
 [v ___fladd __fladd `(d  1 e 4 0 ]
-"242
-[v ___flsub __flsub `(d  1 e 4 0 ]
 "8 /opt/microchip/xc8/v3.10/pic/sources/c99/common/sprcdiv.c
 [v ___fldiv __fldiv `(d  1 e 4 0 ]
 "8 /opt/microchip/xc8/v3.10/pic/sources/c99/common/sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
-"3 /opt/microchip/xc8/v3.10/pic/sources/c99/common/strcpy.c
-[v _strcpy strcpy `(*.5uc  1 e 1 0 ]
 "4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/Umul8_16.c
 [v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
 "10 /opt/microchip/xc8/v3.10/pic/sources/c99/common/xxtofl.c
@@ -97,34 +69,30 @@
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"50 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
-[v _canal_actual canal_actual `i  1 e 2 0 ]
-[v _conversion_lista conversion_lista `i  1 e 2 0 ]
-"51
-[v _lecturas lecturas `[3]i  1 e 6 0 ]
+"53 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
+[v _lecturas lecturas `VE[3]i  1 e 6 0 ]
 "54
-[v _co2_prediction co2_prediction `ui  1 e 2 0 ]
+[v _canal_actual canal_actual `VEi  1 e 2 0 ]
 "55
+[v _conversion_lista conversion_lista `VEi  1 e 2 0 ]
+"58
+[v _co2_prediction co2_prediction `ui  1 e 2 0 ]
+"59
 [v _tvoc_prediction tvoc_prediction `ui  1 e 2 0 ]
-"56
-[v _status status `uc  1 e 1 0 ]
-"57
+"60
+[v _iaq_status iaq_status `uc  1 e 1 0 ]
+"61
 [v _resistance resistance `ul  1 e 4 0 ]
+"64
+[v _velocidad_pwm velocidad_pwm `f  1 e 4 0 ]
+"65
+[v _rojo rojo `i  1 e 2 0 ]
+[v _verde verde `i  1 e 2 0 ]
+[v _azul azul `i  1 e 2 0 ]
+[v _intensity intensity `i  1 e 2 0 ]
 "59 /opt/microchip/mplabx/v6.25/packs/Microchip/PIC16Fxxx_DFP/1.6.156/xc8/pic/include/proc/pic16f886.h
 [v _TMR0 TMR0 `VEuc  1 e 1 @1 ]
-[s S523 . 1 `uc 1 RA0 1 0 :1:0 
-`uc 1 RA1 1 0 :1:1 
-`uc 1 RA2 1 0 :1:2 
-`uc 1 RA3 1 0 :1:3 
-`uc 1 RA4 1 0 :1:4 
-`uc 1 RA5 1 0 :1:5 
-`uc 1 RA6 1 0 :1:6 
-`uc 1 RA7 1 0 :1:7 
-]
-"183
-[u S532 . 1 `S523 1 . 1 0 ]
-[v _PORTAbits PORTAbits `VES532  1 e 1 @5 ]
-[s S502 . 1 `uc 1 RC0 1 0 :1:0 
+[s S514 . 1 `uc 1 RC0 1 0 :1:0 
 `uc 1 RC1 1 0 :1:1 
 `uc 1 RC2 1 0 :1:2 
 `uc 1 RC3 1 0 :1:3 
@@ -134,9 +102,9 @@
 `uc 1 RC7 1 0 :1:7 
 ]
 "307
-[u S511 . 1 `S502 1 . 1 0 ]
-[v _PORTCbits PORTCbits `VES511  1 e 1 @7 ]
-[s S627 . 1 `uc 1 RBIF 1 0 :1:0 
+[u S523 . 1 `S514 1 . 1 0 ]
+[v _PORTCbits PORTCbits `VES523  1 e 1 @7 ]
+[s S611 . 1 `uc 1 RBIF 1 0 :1:0 
 `uc 1 INTF 1 0 :1:1 
 `uc 1 T0IF 1 0 :1:2 
 `uc 1 RBIE 1 0 :1:3 
@@ -146,13 +114,13 @@
 `uc 1 GIE 1 0 :1:7 
 ]
 "403
-[s S636 . 1 `uc 1 . 1 0 :2:0 
+[s S620 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 TMR0IF 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 TMR0IE 1 0 :1:5 
 ]
-[u S641 . 1 `S627 1 . 1 0 `S636 1 . 1 0 ]
-[v _INTCONbits INTCONbits `VES641  1 e 1 @11 ]
+[u S625 . 1 `S611 1 . 1 0 `S620 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES625  1 e 1 @11 ]
 [s S257 . 1 `uc 1 TMR1IF 1 0 :1:0 
 `uc 1 TMR2IF 1 0 :1:1 
 `uc 1 CCP1IF 1 0 :1:2 
@@ -256,7 +224,7 @@
 ]
 [u S370 . 1 `S350 1 . 1 0 `S355 1 . 1 0 `S364 1 . 1 0 `S367 1 . 1 0 ]
 [v _ADCON0bits ADCON0bits `VES370  1 e 1 @31 ]
-[s S601 . 1 `uc 1 PS 1 0 :3:0 
+[s S585 . 1 `uc 1 PS 1 0 :3:0 
 `uc 1 PSA 1 0 :1:3 
 `uc 1 T0SE 1 0 :1:4 
 `uc 1 T0CS 1 0 :1:5 
@@ -264,12 +232,12 @@
 `uc 1 nRBPU 1 0 :1:7 
 ]
 "1287
-[s S608 . 1 `uc 1 PS0 1 0 :1:0 
+[s S592 . 1 `uc 1 PS0 1 0 :1:0 
 `uc 1 PS1 1 0 :1:1 
 `uc 1 PS2 1 0 :1:2 
 ]
-[u S612 . 1 `S601 1 . 1 0 `S608 1 . 1 0 ]
-[v _OPTION_REGbits OPTION_REGbits `VES612  1 e 1 @129 ]
+[u S596 . 1 `S585 1 . 1 0 `S592 1 . 1 0 ]
+[v _OPTION_REGbits OPTION_REGbits `VES596  1 e 1 @129 ]
 [s S329 . 1 `uc 1 TRISA0 1 0 :1:0 
 `uc 1 TRISA1 1 0 :1:1 
 `uc 1 TRISA2 1 0 :1:2 
@@ -305,20 +273,20 @@
 "1560
 [u S244 . 1 `S236 1 . 1 0 ]
 [v _PIE1bits PIE1bits `VES244  1 e 1 @140 ]
-[s S689 . 1 `uc 1 SCS 1 0 :1:0 
+[s S675 . 1 `uc 1 SCS 1 0 :1:0 
 `uc 1 LTS 1 0 :1:1 
 `uc 1 HTS 1 0 :1:2 
 `uc 1 OSTS 1 0 :1:3 
 `uc 1 IRCF 1 0 :3:4 
 ]
 "1724
-[s S695 . 1 `uc 1 . 1 0 :4:0 
+[s S681 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 IRCF0 1 0 :1:4 
 `uc 1 IRCF1 1 0 :1:5 
 `uc 1 IRCF2 1 0 :1:6 
 ]
-[u S700 . 1 `S689 1 . 1 0 `S695 1 . 1 0 ]
-[v _OSCCONbits OSCCONbits `VES700  1 e 1 @143 ]
+[u S686 . 1 `S675 1 . 1 0 `S681 1 . 1 0 ]
+[v _OSCCONbits OSCCONbits `VES686  1 e 1 @143 ]
 [s S462 . 1 `uc 1 SEN 1 0 :1:0 
 `uc 1 RSEN 1 0 :1:1 
 `uc 1 PEN 1 0 :1:2 
@@ -389,369 +357,67 @@
 [v _ANSELH ANSELH `VEuc  1 e 1 @393 ]
 "4297
 [v _TXIF TXIF `VEb  1 e 0 @100 ]
-"153 /opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c
-[v _prec prec `i  1 s 2 prec ]
-[v _width width `i  1 s 2 width ]
-"154
-[v _flags flags `uc  1 s 1 flags ]
-"185
-[v _dbuf dbuf `[80]uc  1 s 80 dbuf ]
-"228 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
+"227 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
 [v _main main `(v  1 e 1 0 ]
 {
-"304
-[v main@adc_noise adc_noise `i  1 a 2 9 ]
-"303
-[v main@noise_category noise_category `uc  1 a 1 21 ]
-"274
-[v main@hum_int hum_int `ui  1 a 2 7 ]
-"262
-[v main@lux_int lux_int `ui  1 a 2 5 ]
-"282
-[v main@fan_percent fan_percent `uc  1 a 1 0 ]
-"234
-[v main@payload payload `[4]uc  1 a 4 26 ]
+"306
+[v main@adc_noise adc_noise `i  1 a 2 20 ]
+"305
+[v main@noise_category noise_category `uc  1 a 1 22 ]
+"280
+[v main@hum_int hum_int `ui  1 a 2 18 ]
+"269
+[v main@lux_int lux_int `ui  1 a 2 16 ]
+"286
+[v main@fan_percent fan_percent `uc  1 a 1 15 ]
+"255
+[v main@k k `i  1 a 2 23 ]
+"228
+[v main@buffer buffer `[9]uc  1 a 9 0 ]
+"229
+[v main@payload payload `[4]uc  1 a 4 27 ]
 "231
-[v main@velocidad_pwm velocidad_pwm `f  1 a 4 22 ]
-[v main@lux_value lux_value `f  1 a 4 1 ]
+[v main@lux_value lux_value `f  1 a 4 9 ]
 "232
-[v main@intensity intensity `i  1 a 2 19 ]
-[v main@azul azul `i  1 a 2 17 ]
-[v main@verde verde `i  1 a 2 15 ]
-[v main@rojo rojo `i  1 a 2 13 ]
-[v main@count count `i  1 a 2 11 ]
-"326
+[v main@count count `i  1 a 2 25 ]
+"230
+[v main@luz_raw luz_raw `ui  1 a 2 13 ]
+"322
 } 0
-"10 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/uart-v1.c
+"4 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/uart-v1.c
 [v _uart_init uart_init `(v  1 e 1 0 ]
 {
-"31
+"25
 } 0
-"206 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
-[v _set_leds set_leds `(v  1 e 1 0 ]
-{
-"213
-[v set_leds@i i `i  1 a 2 12 ]
-"206
-[v set_leds@red red `i  1 p 2 4 ]
-[v set_leds@green green `i  1 p 2 6 ]
-[v set_leds@blue blue `i  1 p 2 8 ]
-[v set_leds@intensity intensity `i  1 p 2 10 ]
-"226
-} 0
-"8 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/spi-master-v1.c
-[v _spi_write_read spi_write_read `(uc  1 e 1 0 ]
-{
-[v spi_write_read@one_byte one_byte `uc  1 p 1 wreg ]
-"10
-[v spi_write_read@x x `uc  1 a 1 3 ]
-[v spi_write_read@answer answer `uc  1 a 1 2 ]
-"8
-[v spi_write_read@one_byte one_byte `uc  1 p 1 wreg ]
-"12
-[v spi_write_read@one_byte one_byte `uc  1 p 1 1 ]
-"28
-} 1
-"26 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/pwm-v1.c
-[v _set_PWM set_PWM `(v  1 e 1 0 ]
-{
-[v set_PWM@freq freq `i  1 p 2 50 ]
-[v set_PWM@porcentaje porcentaje `f  1 p 4 52 ]
-"29
-} 0
-"61 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/uart-v1.c
+"55
 [v _send_frame send_frame `(v  1 e 1 0 ]
 {
 [v send_frame@command command `uc  1 p 1 wreg ]
 "66
 [v send_frame@i i `i  1 a 2 8 ]
-"61
+"55
 [v send_frame@command command `uc  1 p 1 wreg ]
 [v send_frame@length length `uc  1 p 1 2 ]
-[v send_frame@data data `*.5uc  1 p 1 3 ]
+[v send_frame@data data `*.4uc  1 p 1 3 ]
+"57
 [v send_frame@command command `uc  1 p 1 7 ]
-"72
+"83
 } 1
-"56
+"50
 [v _uart_write uart_write `(v  1 e 1 0 ]
 {
 [v uart_write@c c `us  1 p 2 0 ]
-"59
+"53
 } 0
-"5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/printf.c
-[v _printf printf `(i  1 e 2 0 ]
+"7 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/spi-master-v1.c
+[v _init_spi init_spi `(v  1 e 1 0 ]
 {
-"8
-[v printf@ap ap `[1]*.4v  1 a 1 72 ]
-"5
-[v printf@fmt fmt `*.24DCuc  1 p 1 50 ]
 "13
 } 0
-"1817 /opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c
-[v _vfprintf vfprintf `(i  1 e 2 0 ]
-{
-"1820
-[v vfprintf@cfmt cfmt `*.24uc  1 a 1 71 ]
-[s S1261 _IO_FILE 0 ]
-"1817
-[v vfprintf@fp fp `*.1S1261  1 p 1 47 ]
-[v vfprintf@fmt fmt `*.24DCuc  1 p 1 48 ]
-[v vfprintf@ap ap `*.4*.4v  1 p 1 49 ]
-"1840
-} 0
-"1177
-[v _vfpfcnvrt vfpfcnvrt `(v  1 s 1 vfpfcnvrt ]
-{
-[u S1305 . 4 `i 1 sint 2 0 `ui 1 uint 2 0 `d 1 f 4 0 ]
-"1188
-[v vfpfcnvrt@convarg convarg `S1305  1 a 4 65 ]
-"1179
-[v vfpfcnvrt@c c `uc  1 a 1 70 ]
-[v vfpfcnvrt@cp cp `*.24uc  1 a 1 69 ]
-"1180
-[v vfpfcnvrt@done done `a  1 a 1 64 ]
-[s S1261 _IO_FILE 0 ]
-"1177
-[v vfpfcnvrt@fp fp `*.1S1261  1 p 1 44 ]
-[v vfpfcnvrt@fmt fmt `*.4*.24uc  1 p 1 45 ]
-[v vfpfcnvrt@ap ap `*.4*.4v  1 p 1 46 ]
-"1814
-} 0
-"587
-[v _efgtoa efgtoa `(v  1 s 1 efgtoa ]
-{
-[u S1274 flui 4 `d 1 f 4 0 `l 1 u 4 0 ]
-"592
-[v efgtoa@u u `S1274  1 a 4 40 ]
-[v efgtoa@g g `S1274  1 a 4 36 ]
-"591
-[v efgtoa@l l `d  1 a 4 29 ]
-[v efgtoa@h h `d  1 a 4 25 ]
-"592
-[v efgtoa@ou ou `S1274  1 a 4 19 ]
-"590
-[v efgtoa@n n `i  1 a 2 34 ]
-[v efgtoa@i i `i  1 a 2 23 ]
-[v efgtoa@w w `i  1 a 2 17 ]
-[v efgtoa@e e `i  1 a 2 15 ]
-[v efgtoa@m m `i  1 a 2 13 ]
-[v efgtoa@d d `i  1 a 2 11 ]
-[v efgtoa@t t `i  1 a 2 4 ]
-[v efgtoa@p p `i  1 a 2 2 ]
-[v efgtoa@ne ne `i  1 a 2 0 ]
-"589
-[v efgtoa@sign sign `uc  1 a 1 33 ]
-[v efgtoa@nmode nmode `uc  1 a 1 10 ]
-[v efgtoa@mode mode `uc  1 a 1 9 ]
-[v efgtoa@pp pp `uc  1 a 1 8 ]
-[s S1261 _IO_FILE 0 ]
-"587
-[v efgtoa@fp fp `*.1S1261  1 p 1 52 ]
-[v efgtoa@f f `d  1 p 4 53 ]
-[v efgtoa@c c `uc  1 p 1 57 ]
-"868
-} 0
-"3 /opt/microchip/xc8/v3.10/pic/sources/c99/common/strcpy.c
-[v _strcpy strcpy `(*.5uc  1 e 1 0 ]
-{
-"5
-[v strcpy@d d `*.5uc  1 a 1 2 ]
-"3
-[v strcpy@dest dest `*.5uc  1 p 1 0 ]
-[v strcpy@src src `*.24DCuc  1 p 1 1 ]
-"8
-} 0
-"193 /opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c
-[v _pad pad `(v  1 s 1 pad ]
-{
-"195
-[v pad@i i `i  1 a 2 21 ]
-[s S1261 _IO_FILE 0 ]
-"193
-[v pad@fp fp `*.1S1261  1 p 1 16 ]
-[v pad@buf buf `*.5uc  1 p 1 17 ]
-[v pad@p p `i  1 p 2 18 ]
-"226
-} 0
-"8 /opt/microchip/xc8/v3.10/pic/sources/c99/common/nf_fputs.c
-[v _fputs fputs `(i  1 e 2 0 ]
-{
-"11
-[v fputs@i i `i  1 a 2 14 ]
-"10
-[v fputs@c c `uc  1 a 1 13 ]
-"8
-[v fputs@s s `*.5DCuc  1 p 1 9 ]
-[u S1239 . 1 `*.1uc 1 buffer 1 0 `*.1DCuc 1 source 1 0 ]
-[s S1242 _IO_FILE 10 `S1239 1 . 1 0 `i 1 count 2 1 `[3]uc 1 ungetbuf 3 3 `i 1 ungetcnt 2 6 `i 1 limit 2 8 ]
-[v fputs@fp fp `*.1S1242  1 p 1 10 ]
-"19
-} 0
-"8 /opt/microchip/xc8/v3.10/pic/sources/c99/common/nf_fputc.c
-[v _fputc fputc `(i  1 e 2 0 ]
-{
-[v fputc@c c `i  1 p 2 1 ]
-[u S1239 . 1 `*.1uc 1 buffer 1 0 `*.1DCuc 1 source 1 0 ]
-[s S1242 _IO_FILE 10 `S1239 1 . 1 0 `i 1 count 2 1 `[3]uc 1 ungetbuf 3 3 `i 1 ungetcnt 2 6 `i 1 limit 2 8 ]
-[v fputc@fp fp `*.1S1242  1 p 1 3 ]
-"24
-} 0
-"34 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/uart-v1.c
-[v _putch putch `(v  1 e 1 0 ]
-{
-[v putch@c c `uc  1 p 1 wreg ]
-[v putch@c c `uc  1 p 1 wreg ]
-[v putch@c c `uc  1 p 1 0 ]
-"38
-} 1
-"4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/memcpy.c
-[v _memcpy memcpy `(*.5v  1 e 1 0 ]
-{
-"8
-[v memcpy@s s `*.5DCuc  1 a 1 6 ]
-"7
-[v memcpy@d d `*.5uc  1 a 1 5 ]
-"9
-[v memcpy@tmp tmp `uc  1 a 1 4 ]
-"4
-[v memcpy@d1 d1 `*.5v  1 p 1 0 ]
-[v memcpy@s1 s1 `*.5DCv  1 p 1 1 ]
-[v memcpy@n n `ui  1 p 2 2 ]
-"18
-} 0
-"1 /opt/microchip/xc8/v3.10/pic/sources/c99/common/labs.c
-[v _labs labs `(l  1 e 4 0 ]
-{
-[v labs@a a `l  1 p 4 0 ]
-"4
-} 0
-"3 /opt/microchip/xc8/v3.10/pic/sources/c99/common/floorf.c
-[v _floorf floorf `(f  1 e 4 0 ]
-{
-[u S1383 . 4 `f 1 f 4 0 `ul 1 i 4 0 ]
-"5
-[v floorf@u u `S1383  1 a 4 42 ]
-"7
-[v floorf@m m `ul  1 a 4 36 ]
-"6
-[v floorf@e e `i  1 a 2 40 ]
-"3
-[v floorf@x x `f  1 p 4 26 ]
-"4
-[v floorf@F521 F521 `S1383  1 s 4 F521 ]
-"27
-} 0
-"4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/__fpclassifyf.c
-[v ___fpclassifyf __fpclassifyf `(i  1 e 2 0 ]
-{
-[u S1383 . 4 `f 1 f 4 0 `ul 1 i 4 0 ]
-"6
-[v ___fpclassifyf@u u `S1383  1 a 4 12 ]
-"7
-[v ___fpclassifyf@e e `i  1 a 2 10 ]
-"4
-[v ___fpclassifyf@x x `f  1 p 4 0 ]
-"5
-[v ___fpclassifyf@F465 F465 `S1383  1 s 4 F465 ]
-"11
-} 0
-"242 /opt/microchip/xc8/v3.10/pic/sources/c99/common/sprcadd.c
-[v ___flsub __flsub `(d  1 e 4 0 ]
-{
-[v ___flsub@a a `d  1 p 4 40 ]
-[v ___flsub@b b `d  1 p 4 44 ]
-"250
-} 0
-"10
-[v ___fladd __fladd `(d  1 e 4 0 ]
-{
-"17
-[v ___fladd@grs grs `uc  1 a 1 19 ]
-"15
-[v ___fladd@bexp bexp `uc  1 a 1 18 ]
-"16
-[v ___fladd@aexp aexp `uc  1 a 1 17 ]
-"13
-[v ___fladd@signs signs `uc  1 a 1 16 ]
-"10
-[v ___fladd@b b `d  1 p 4 0 ]
-[v ___fladd@a a `d  1 p 4 4 ]
-"237
-} 0
-"15 /opt/microchip/xc8/v3.10/pic/sources/c99/common/flneg.c
-[v ___flneg __flneg `(d  1 e 4 0 ]
-{
-[v ___flneg@f1 f1 `d  1 p 4 0 ]
-"20
-} 0
-"4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/flge.c
-[v ___flge __flge `(b  1 e 0 0 ]
-{
-[v ___flge@ff1 ff1 `d  1 p 4 40 ]
-[v ___flge@ff2 ff2 `d  1 p 4 44 ]
-"19
-} 0
-"4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/fleq.c
-[v ___fleq __fleq `(b  1 e 0 0 ]
-{
-[v ___fleq@ff1 ff1 `d  1 p 4 0 ]
-[v ___fleq@ff2 ff2 `d  1 p 4 4 ]
-"12
-} 0
-"8 /opt/microchip/xc8/v3.10/pic/sources/c99/common/sprcdiv.c
-[v ___fldiv __fldiv `(d  1 e 4 0 ]
-{
-"21
-[v ___fldiv@grs grs `ul  1 a 4 20 ]
-"22
-[v ___fldiv@rem rem `ul  1 a 4 13 ]
-"20
-[v ___fldiv@new_exp new_exp `s  1 a 2 18 ]
-"19
-[v ___fldiv@aexp aexp `uc  1 a 1 25 ]
-"18
-[v ___fldiv@bexp bexp `uc  1 a 1 24 ]
-"16
-[v ___fldiv@sign sign `uc  1 a 1 17 ]
-"8
-[v ___fldiv@a a `d  1 p 4 0 ]
-[v ___fldiv@b b `d  1 p 4 4 ]
-"185
-} 0
-"1 /opt/microchip/xc8/v3.10/pic/sources/c99/common/abs.c
-[v _abs abs `(i  1 e 2 0 ]
-{
-[v abs@a a `i  1 p 2 6 ]
-"4
-} 0
-"5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/awmod.c
-[v ___awmod __awmod `(i  1 e 2 0 ]
-{
-"10
-[v ___awmod@sign sign `uc  1 a 1 5 ]
-[v ___awmod@counter counter `uc  1 a 1 4 ]
-"5
-[v ___awmod@divisor divisor `i  1 p 2 0 ]
-[v ___awmod@dividend dividend `i  1 p 2 2 ]
-"34
-} 0
-"5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/awdiv.c
-[v ___awdiv __awdiv `(i  1 e 2 0 ]
-{
-"10
-[v ___awdiv@quotient quotient `i  1 a 2 6 ]
-"11
-[v ___awdiv@sign sign `uc  1 a 1 5 ]
-[v ___awdiv@counter counter `uc  1 a 1 4 ]
-"5
-[v ___awdiv@divisor divisor `i  1 p 2 0 ]
-[v ___awdiv@dividend dividend `i  1 p 2 2 ]
-"41
-} 0
-"168 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
+"126 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
 [v _init_TMR0 init_TMR0 `(v  1 e 1 0 ]
 {
-"176
+"134
 } 0
 "14 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/pwm-v1.c
 [v _init_PWM init_PWM `(v  1 e 1 0 ]
@@ -759,6 +425,146 @@
 [v init_PWM@freq freq `i  1 p 2 50 ]
 [v init_PWM@porcentaje porcentaje `f  1 p 4 52 ]
 "24
+} 0
+"14 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/adc-v1.c
+[v _init_ADC init_ADC `(v  1 e 1 0 ]
+{
+"33
+} 0
+"113 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
+[v _i2c_init_setup i2c_init_setup `(v  1 e 1 0 ]
+{
+"124
+} 0
+"108
+[v _VEML_Setup VEML_Setup `(v  1 e 1 0 ]
+{
+"111
+} 0
+"84
+[v _VEML_Write VEML_Write `(v  1 e 1 0 ]
+{
+[v VEML_Write@command command `uc  1 p 1 wreg ]
+[v VEML_Write@command command `uc  1 p 1 wreg ]
+[v VEML_Write@data data `ui  1 p 2 1 ]
+[v VEML_Write@command command `uc  1 p 1 3 ]
+"91
+} 1
+"93
+[v _VEML_Read VEML_Read `(ui  1 e 2 0 ]
+{
+[v VEML_Read@command command `uc  1 p 1 wreg ]
+"95
+[v VEML_Read@resultado resultado `ui  1 a 2 8 ]
+"94
+[v VEML_Read@msb msb `uc  1 a 1 12 ]
+[v VEML_Read@lsb lsb `uc  1 a 1 11 ]
+"93
+[v VEML_Read@command command `uc  1 p 1 wreg ]
+"96
+[v VEML_Read@command command `uc  1 p 1 10 ]
+"106
+} 1
+"30 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/i2c-v2.c
+[v _i2c_rstart i2c_rstart `(v  1 e 1 0 ]
+{
+"35
+} 0
+"67 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
+[v _IAQ_read IAQ_read `(v  1 e 1 0 ]
+{
+"70
+[v IAQ_read@i i `i  1 a 2 15 ]
+"67
+[v IAQ_read@buffer buffer `*.4uc  1 p 1 2 ]
+"82
+} 0
+"37 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/i2c-v2.c
+[v _i2c_write i2c_write `(uc  1 e 1 0 ]
+{
+[v i2c_write@I2C_data I2C_data `uc  1 p 1 wreg ]
+[v i2c_write@I2C_data I2C_data `uc  1 p 1 wreg ]
+"39
+[v i2c_write@I2C_data I2C_data `uc  1 p 1 0 ]
+"42
+} 1
+"23
+[v _i2c_stop i2c_stop `(v  1 e 1 0 ]
+{
+"28
+} 0
+"16
+[v _i2c_start i2c_start `(v  1 e 1 0 ]
+{
+"21
+} 0
+"47
+[v _i2c_read i2c_read `(uc  1 e 1 0 ]
+{
+[v i2c_read@master_ack master_ack `uc  1 p 1 wreg ]
+"49
+[v i2c_read@I2C_data I2C_data `uc  1 a 1 1 ]
+"47
+[v i2c_read@master_ack master_ack `uc  1 p 1 wreg ]
+"51
+[v i2c_read@master_ack master_ack `uc  1 p 1 0 ]
+"64
+} 1
+"8
+[v _wait_MSSP wait_MSSP `(v  1 e 1 0 ]
+{
+"14
+} 0
+"186 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
+[v _Check_UART_RX Check_UART_RX `(v  1 e 1 0 ]
+{
+"213
+[v Check_UART_RX@val val `i  1 a 2 69 ]
+"202
+[v Check_UART_RX@i i `i  1 a 2 72 ]
+"200
+[v Check_UART_RX@buffer buffer `[5]uc  1 a 5 62 ]
+"199
+[v Check_UART_RX@data_len data_len `uc  1 a 1 74 ]
+"197
+[v Check_UART_RX@cmd cmd `uc  1 a 1 71 ]
+"196
+[v Check_UART_RX@len len `uc  1 a 1 68 ]
+"191
+[v Check_UART_RX@h h `uc  1 a 1 67 ]
+"225
+} 0
+"164
+[v _set_leds set_leds `(v  1 e 1 0 ]
+{
+"171
+[v set_leds@i i `i  1 a 2 12 ]
+"164
+[v set_leds@red red `i  1 p 2 4 ]
+[v set_leds@green green `i  1 p 2 6 ]
+[v set_leds@blue blue `i  1 p 2 8 ]
+[v set_leds@intensity intensity `i  1 p 2 10 ]
+"184
+} 0
+"15 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/spi-master-v1.c
+[v _spi_write_read spi_write_read `(uc  1 e 1 0 ]
+{
+[v spi_write_read@one_byte one_byte `uc  1 p 1 wreg ]
+"17
+[v spi_write_read@x x `uc  1 a 1 3 ]
+[v spi_write_read@answer answer `uc  1 a 1 2 ]
+"15
+[v spi_write_read@one_byte one_byte `uc  1 p 1 wreg ]
+"19
+[v spi_write_read@one_byte one_byte `uc  1 p 1 1 ]
+"35
+} 1
+"26 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/pwm-v1.c
+[v _set_PWM set_PWM `(v  1 e 1 0 ]
+{
+[v set_PWM@freq freq `i  1 p 2 50 ]
+[v set_PWM@porcentaje porcentaje `f  1 p 4 52 ]
+"29
 } 0
 "10 /opt/microchip/xc8/v3.10/pic/sources/c99/common/xxtofl.c
 [v ___xxtofl __xxtofl `(d  1 e 4 0 ]
@@ -788,17 +594,17 @@
 "8 /opt/microchip/xc8/v3.10/pic/sources/c99/common/sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
 {
-[s S1088 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
+[s S1081 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
 "13
-[s S1093 . 4 `s 1 wordA 2 0 `s 1 wordB 2 2 ]
-[u S1096 . 4 `l 1 i 4 0 `d 1 f 4 0 `S1088 1 fAsBytes 4 0 `S1093 1 fAsWords 4 0 ]
-[v ___flmul@prod prod `S1096  1 a 4 34 ]
+[s S1086 . 4 `s 1 wordA 2 0 `s 1 wordB 2 2 ]
+[u S1089 . 4 `l 1 i 4 0 `d 1 f 4 0 `S1081 1 fAsBytes 4 0 `S1086 1 fAsWords 4 0 ]
+[v ___flmul@prod prod `S1089  1 a 4 34 ]
 "12
 [v ___flmul@grs grs `ul  1 a 4 28 ]
-[s S1165 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
+[s S1158 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
 "14
-[u S1168 . 2 `s 1 i 2 0 `us 1 n 2 0 `S1165 1 nAsBytes 2 0 ]
-[v ___flmul@temp temp `S1168  1 a 2 38 ]
+[u S1161 . 2 `s 1 i 2 0 `us 1 n 2 0 `S1158 1 nAsBytes 2 0 ]
+[v ___flmul@temp temp `S1161  1 a 2 38 ]
 "10
 [v ___flmul@bexp bexp `uc  1 a 1 33 ]
 "11
@@ -837,15 +643,30 @@
 [v ___aldiv@dividend dividend `l  1 p 4 4 ]
 "41
 } 0
-"14 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Functions/adc-v1.c
-[v _init_ADC init_ADC `(v  1 e 1 0 ]
+"8 /opt/microchip/xc8/v3.10/pic/sources/c99/common/sprcdiv.c
+[v ___fldiv __fldiv `(d  1 e 4 0 ]
 {
-"33
+"21
+[v ___fldiv@grs grs `ul  1 a 4 34 ]
+"22
+[v ___fldiv@rem rem `ul  1 a 4 27 ]
+"20
+[v ___fldiv@new_exp new_exp `s  1 a 2 32 ]
+"19
+[v ___fldiv@aexp aexp `uc  1 a 1 39 ]
+"18
+[v ___fldiv@bexp bexp `uc  1 a 1 38 ]
+"16
+[v ___fldiv@sign sign `uc  1 a 1 31 ]
+"8
+[v ___fldiv@a a `d  1 p 4 14 ]
+[v ___fldiv@b b `d  1 p 4 18 ]
+"185
 } 0
-"178 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
+"136 /home/kinz/Desktop/SistemasEmpotrados/SE/Desarrollo/MPLAB/Code/main.c
 [v _interrupt_manager interrupt_manager `II(v  1 e 1 0 ]
 {
-"189
+"147
 [v interrupt_manager@valor valor `i  1 a 2 5 ]
-"204
+"162
 } 0

@@ -8,10 +8,11 @@
 #ifndef SPI_MASTER_V1_H
 #define	SPI_MASTER_V1_H
 
-#define spi_clk PORTCbits.RC5
-#define spi_dat_out PORTCbits.RC0
-#define spi_dat_in PORTAbits.RA5
+#define spi_clk PORTCbits.RC0
+#define spi_dat_out PORTCbits.RC5
+#define spi_dat_in PORTCbits.RC1
 
+void init_spi();
 
 char spi_write_read(char one_byte);
 

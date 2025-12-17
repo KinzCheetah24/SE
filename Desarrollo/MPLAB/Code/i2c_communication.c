@@ -29,7 +29,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../../Functions/i2c-v2.h"
+#include "../Functions/i2c-v2.h"
+#include "../Functions/uart-v1.h"
 
 // Dirección I2C: 0x5A (90 decimal)
 #define IAQ_ADDR 0x5A
@@ -163,7 +164,9 @@ void main(void) {
     unsigned int luz_raw;
     float lux_value;
     
-    OSCCONbits.OSTS = 1; 
+    OSCCONbits.OSTS = 1;
+    uart_init();
+    
     i2c_init_setup(); // IMPORTANTE: Inicializar el periférico
     VEML_Setup();     // Encender y configurar el sensor de luz
     
@@ -171,7 +174,9 @@ void main(void) {
         IAQ_read(buffer);
         
         luz_raw = VEML_Read(VEML_CMD_ALS);
-        lux_value =  (float)luz_raw * 0.042;
+        lux_value =  (int)luz_raw * 0.042;
+        
+        printf("Luz: %f CO2: %d\r\n", lux_value, co2_prediction);
 
         __delay_ms(1000); // Esperar antes de la siguiente lectura
         // El intervalo de medición en modo continuo es 1s [cite: 47]

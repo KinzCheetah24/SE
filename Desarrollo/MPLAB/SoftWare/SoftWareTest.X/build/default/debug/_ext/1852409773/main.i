@@ -2739,6 +2739,8 @@ void set_PWM(int freq, float porcentaje);
 # 11 "../../Code/../Functions/uart-v1.h"
 void uart_init(void);
 
+void putch(char c);
+
 uint16_t uart_read(void);
 
 void uart_write(uint16_t c);
@@ -2750,7 +2752,9 @@ void send_frame(uint8_t command, uint8_t length, uint8_t *data);
 void init_ADC(void);
 # 35 "../../Code/main.c" 2
 # 1 "../../Code/../Functions/spi-master-v1.h" 1
-# 16 "../../Code/../Functions/spi-master-v1.h"
+# 15 "../../Code/../Functions/spi-master-v1.h"
+void init_spi();
+
 char spi_write_read(char one_byte);
 # 36 "../../Code/main.c" 2
 # 1 "../../Code/../Functions/i2c-v2.h" 1
@@ -2768,56 +2772,65 @@ unsigned char i2c_write(unsigned char I2C_data);
 
 unsigned char i2c_read(char master_ack);
 # 37 "../../Code/main.c" 2
-# 50 "../../Code/main.c"
-int dato, canal_actual = 0, conversion_lista = 0;
-int lecturas[3];
+# 53 "../../Code/main.c"
+volatile int lecturas[3];
+volatile int canal_actual = 0;
+volatile int conversion_lista = 0;
 
 
 unsigned int co2_prediction = 0;
 unsigned int tvoc_prediction = 0;
-unsigned char status = 0;
+unsigned char iaq_status = 0;
 unsigned long resistance = 0;
+
+
+float velocidad_pwm = 0.4;
+int rojo = 0, verde = 0, azul = 0, intensity = 5;
 
 void IAQ_read(unsigned char* buffer) {
     i2c_start();
+    if (i2c_write((0x5A << 1) | 1)) {
+        for (int i = 0; i < 8; i++) buffer[i] = i2c_read(1);
+        buffer[8] = i2c_read(0);
+        i2c_stop();
 
 
+        co2_prediction = ((unsigned int)buffer[0] << 8) | buffer[1];
+        iaq_status = buffer[2];
+        resistance = ((unsigned long)buffer[4] << 16) | ((unsigned long)buffer[5] << 8) | buffer[6];
+        tvoc_prediction = ((unsigned int)buffer[7] << 8) | buffer[8];
+    } else {
+        i2c_stop();
+    }
+}
 
-        if (i2c_write((0x5A << 1) | 1)) {
+void VEML_Write(unsigned char command, unsigned int data) {
+    i2c_start();
+    i2c_write((0x10 << 1) | 0);
+    i2c_write(command);
+    i2c_write(data & 0xFF);
+    i2c_write((data >> 8) & 0xFF);
+    i2c_stop();
+}
 
+unsigned int VEML_Read(unsigned char command) {
+    unsigned char lsb, msb;
+    unsigned int resultado;
+    i2c_start();
+    i2c_write((0x10 << 1) | 0);
+    i2c_write(command);
+    i2c_rstart();
+    i2c_write((0x10 << 1) | 1);
+    lsb = i2c_read(1);
+    msb = i2c_read(0);
+    i2c_stop();
+    resultado = ((unsigned int)msb << 8) | lsb;
+    return resultado;
+}
 
-            for (int i = 0; i < 8; i++) {
-                buffer[i] = i2c_read(1);
-            }
-
-
-
-            buffer[8] = i2c_read(0);
-
-            i2c_stop();
-
-
-
-
-
-            co2_prediction = ((unsigned int)buffer[0] << 8) | buffer[1];
-
-
-
-            status = buffer[2];
-
-
-            resistance = ((unsigned long)buffer[4] << 16) |
-                         ((unsigned long)buffer[5] << 8) |
-                         buffer[6];
-
-
-            tvoc_prediction = ((unsigned int)buffer[7] << 8) | buffer[8];
-
-        } else {
-
-            i2c_stop();
-        }
+void VEML_Setup() {
+    VEML_Write(0x00, 0x0800);
+    _delay((unsigned long)((200)*(20000000/4000.0)));
 }
 
 void i2c_init_setup(void) {
@@ -2831,60 +2844,6 @@ void i2c_init_setup(void) {
 
     SSPSTAT = 0x00;
     PIR1bits.SSPIF = 0;
-}
-
-
-void VEML_Write(unsigned char command, unsigned int data) {
-    i2c_start();
-    i2c_write((0x10 << 1) | 0);
-    i2c_write(command);
-
-
-    i2c_write(data & 0xFF);
-    i2c_write((data >> 8) & 0xFF);
-
-    i2c_stop();
-}
-
-
-unsigned int VEML_Read(unsigned char command) {
-    unsigned char lsb, msb;
-    unsigned int resultado;
-
-
-    i2c_start();
-    i2c_write((0x10 << 1) | 0);
-    i2c_write(command);
-
-
-    i2c_rstart();
-    i2c_write((0x10 << 1) | 1);
-
-
-    lsb = i2c_read(1);
-    msb = i2c_read(0);
-
-    i2c_stop();
-
-
-    resultado = ((unsigned int)msb << 8) | lsb;
-    return resultado;
-}
-
-
-void VEML_Setup() {
-
-
-
-
-
-
-
-    VEML_Write(0x00, 0x0800);
-
-
-
-    _delay((unsigned long)((600)*(20000000/4000.0)));
 }
 
 void init_TMR0(void)
@@ -2932,7 +2891,7 @@ void set_leds(int red, int green, int blue, int intensity) {
     spi_write_read(0x00);
     spi_write_read(0x00);
 
-    for (int i = 0 ; i < 8 ; i++) {
+    for (int i = 0 ; i < 10 ; i++) {
 
         spi_write_read(0b11100000 | intensity);
         spi_write_read(0x00 | blue);
@@ -2947,38 +2906,87 @@ void set_leds(int red, int green, int blue, int intensity) {
     spi_write_read(0xFF);
 }
 
+void Check_UART_RX(void) {
+    if(!PIR1bits.RCIF) return;
+
+
+
+    uint8_t h = RCREG;
+    if(h != 0xAA) return;
+
+
+
+    while(!PIR1bits.RCIF); uint8_t len = RCREG;
+    while(!PIR1bits.RCIF); uint8_t cmd = RCREG;
+
+    uint8_t data_len = len - 1;
+    uint8_t buffer[5];
+
+    for(int i=0; i<data_len && i<5; i++) {
+        while(!PIR1bits.RCIF);
+        buffer[i] = RCREG;
+    }
+
+
+    while(!PIR1bits.RCIF); RCREG;
+    while(!PIR1bits.RCIF); RCREG;
+
+
+    if (cmd == 0x04 && data_len >= 1) {
+        int val = buffer[0];
+        if(val > 100) val = 100;
+        velocidad_pwm = (float)val / 100.0;
+        set_PWM(20000, velocidad_pwm);
+    }
+    else if (cmd == 0x05 && data_len >= 4) {
+        rojo = buffer[0];
+        verde = buffer[1];
+        azul = buffer[2];
+        intensity = buffer[3] & 0x1F;
+        set_leds(rojo, verde, azul, intensity);
+    }
+}
+
 void main(void) {
     unsigned char buffer[9];
-    unsigned int luz_raw;
-    float lux_value, velocidad_pwm = 0.3;
-    int count = 0, rojo = 0, verde = 0, azul = 0, intensity = 32;
-
     uint8_t payload[4];
+    unsigned int luz_raw;
+    float lux_value;
+    int count = 0;
 
     OSCCONbits.OSTS = 1;
 
-    init_TMR0();
 
+    init_ADC();
+    uart_init();
+    i2c_init_setup();
+    init_spi();
+    init_PWM(20000, velocidad_pwm);
+
+
+    init_TMR0();
     INTCONbits.GIE = 1;
     INTCONbits.PEIE = 1;
 
-    init_PWM(20000, velocidad_pwm);
 
-    uart_init();
-    init_ADC();
+    VEML_Setup();
+    set_leds(0, 0, 255, 5);
+
+    while(1){
 
 
+        for(int k=0; k<50; k++) {
+            _delay((unsigned long)((10)*(20000000/4000.0)));
+            Check_UART_RX();
+        }
 
+        count++;
 
-    while (1) {
         if (count == 4) {
+            IAQ_read(buffer);
 
-
-
-
-
-            printf("Luminosidad: %f - CO2: %d - Humedad Relativa: %d - Velocidad Ventilador: %f - Leds: R%d G%d B%d I%d - Temperatura: %d\n", lux_value, co2_prediction, lecturas[1], velocidad_pwm, rojo, verde, azul, intensity, lecturas[2]);
-
+            luz_raw = VEML_Read(0x04);
+            lux_value = (float)luz_raw * 0.042;
 
 
             unsigned int lux_int = (unsigned int)lux_value;
@@ -2992,13 +3000,10 @@ void main(void) {
             send_frame(0x02, 2, payload);
 
 
-
             unsigned int hum_int = (unsigned int)lecturas[1];
             payload[0] = (hum_int >> 8) & 0xFF;
             payload[1] = (hum_int) & 0xFF;
             send_frame(0x03, 2, payload);
-
-
 
 
             uint8_t fan_percent = (uint8_t)(velocidad_pwm * 100);
@@ -3006,13 +3011,11 @@ void main(void) {
             send_frame(0x04, 1, payload);
 
 
-
             payload[0] = (uint8_t)rojo;
             payload[1] = (uint8_t)verde;
             payload[2] = (uint8_t)azul;
             payload[3] = (uint8_t)intensity;
             send_frame(0x05, 4, payload);
-
 
 
             payload[0] = (uint8_t)lecturas[2];
@@ -3033,16 +3036,10 @@ void main(void) {
                 noise_category = 2;
             }
 
-            printf("Ruido: %d\n", noise_category);
-
             payload[0] = noise_category;
             send_frame(0x00, 1, payload);
         }
 
-        set_PWM(20000, velocidad_pwm);
-        set_leds(rojo, verde, azul, intensity);
 
-        count++;
-        _delay((unsigned long)((1000)*(20000000/4000.0)));
     }
 }
